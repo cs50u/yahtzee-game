@@ -4,8 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Play the classic dice game Yahtzee online.">
     <title>Yahtzee Game</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="dicearea.css">
+    <link rel="stylesheet" type="text/css" href="gamecontrols.css">
+    <link rel="stylesheet" type="text/css" href="table.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
@@ -122,192 +126,52 @@
         </div>
         <div id="dice-area">
             <div id="dice-holder" class="dice-holder">
-                <!-- This will hold the dice that are selected to be 'held' -->
+                <!-- This will hold the dice that are selected to be 'locked' -->
             </div>
-            <div class="dice">
-                <ol class="die-list even-roll" data-roll="1" id="die-1">
-                    <li class="die-item" data-side="1">
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="2">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="3">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="4">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="5">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="6">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                </ol>
-                <ol class="die-list odd-roll" data-roll="1" id="die-2">
-                    <li class="die-item" data-side="1">
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="2">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="3">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="4">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="5">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="6">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                </ol>
-                <ol class="die-list even-roll" data-roll="1" id="die-3">
-                    <li class="die-item" data-side="1">
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="2">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="3">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="4">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="5">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="6">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                </ol>
-                <ol class="die-list odd-roll" data-roll="1" id="die-4">
-                    <li class="die-item" data-side="1">
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="2">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="3">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="4">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="5">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="6">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                </ol>
-                <ol class="die-list even-roll" data-roll="1" id="die-5">
-                    <li class="die-item" data-side="1">
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="2">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="3">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="4">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="5">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                    <li class="die-item" data-side="6">
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </li>
-                </ol>
+            <div class="dice" id="dice-container">
             </div>
-            <button type="button" id="roll-button">Roll Dice</button>
-            <div id="rolls-remaining">Rolls Remaining: 3</div>
+
+            <script>
+                // Function to create a die with a given id and even or odd roll class
+                function createDie(id, evenOrOddRoll) {
+                    let die = '';
+
+                    // Iterate through numbers 1 to 6 to create die items with corresponding dots
+                    for (let i = 1; i <= 6; i++) {
+                        let dieItem = '';
+
+                        // Add the required number of dots for the current die item
+                        for (let j = 1; j <= i; j++) {
+                            dieItem += '<span class="dot"></span>';
+                        }
+
+                        // Wrap the die item with li tag and append it to the die variable
+                        die += `<li class="die-item" data-side="${i}">${dieItem}</li>`;
+                    }
+
+                    // Wrap the die variable with ol tag and return the complete die element
+                    return `<ol class="die-list ${evenOrOddRoll}-roll unlocked" data-roll="1" id="${id}">${die}</ol>`;
+                }
+
+                // Get the dice container div
+                const diceContainer = document.getElementById('dice-container');
+
+                // Append the generated dice to the container using the createDie function
+                diceContainer.innerHTML = createDie('die-1', 'even') + createDie('die-2', 'odd') + createDie('die-3', 'even') + createDie('die-4', 'odd') + createDie('die-5', 'even');
+            </script>
+
+            <!-- The controls will be added here. -->
+            <div id="game-controls">
+                <button type="button" id="roll-button">Roll Dice</button>
+                <div id="rolls-remaining">Rolls Remaining: 3</div>
+            </div>
         </div>
-    </div>
+        <!--div>
+            <button id="sound-control">Sound: OFF</button>
+        </div-->
+
     </div>
     <script src="main.js"></script>
-
 </body>
 
 </html>
