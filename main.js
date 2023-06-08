@@ -3,16 +3,15 @@ let diceValues = [0, 0, 0, 0, 0];
 
 function rollDice() {
   const dice = [...document.querySelectorAll(".die-list")];
-  dice.forEach((die, index) => {
+  dice.forEach((die) => {
     toggleClasses(die);
-    diceValues[index] = die.dataset.roll = getRandomNumber(1, 6);
+    die.dataset.roll = getRandomNumber(1, 6);
   });
 }
 
 function toggleClasses(die) {
   die.classList.toggle("odd-roll");
   die.classList.toggle("even-roll");
-  die.classList.toggle("held"); // Toggle the "held" class
 }
 
 function getRandomNumber(min, max) {
@@ -20,20 +19,15 @@ function getRandomNumber(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-// Add a click listener for each die
-for (let i = 0; i < 5; i++) {
-  document.getElementById(`dice-${i}`).addEventListener("click", function () {
-    // Toggle the held state for this dice
-    toggleClasses(this);
-  });
-}
+
 // Add a click listener for the Roll Dice button
 document.getElementById("roll-button").addEventListener("click", function () {
-  // Check if the Roll Dice button is disabled
-  if (this.disabled) {
+  // If no rolls remaining, alert and return
+  if (rollsRemaining <= 0) {
     alert("No more rolls left! Please score a category.");
     return;
   }
+
   // Call the rollDice function to roll the dice
   rollDice();
 
@@ -42,10 +36,6 @@ document.getElementById("roll-button").addEventListener("click", function () {
   document.getElementById(
     "rolls-remaining"
   ).textContent = `Rolls Remaining: ${rollsRemaining}`;
-
-  if (rollsRemaining === 0) {
-    this.disabled = true;
-  }
 });
 
 // Reset the dice, rolls remaining, and re-enable roll button
@@ -59,7 +49,12 @@ function startNewTurn() {
     "rolls-remaining"
   ).textContent = `Rolls Remaining: ${rollsRemaining}`;
 
-  document.getElementById("roll-button").disabled = false;
+  // Disable the button here, when a new turn is starting
+  if (rollsRemaining === 0) {
+    document.getElementById("roll-button").disabled = true;
+  } else {
+    document.getElementById("roll-button").disabled = false;
+  }
 }
 
 // Calculate the score for a category
