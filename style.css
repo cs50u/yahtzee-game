@@ -15,7 +15,7 @@ body {
   display: grid;
   grid-template-columns: 2fr 3fr;
   grid-gap: 0.0625em;
-  max-width: 80em;
+  max-width:75em;
   margin: 0 auto;
   padding: 0.625em;
 }
@@ -27,15 +27,3 @@ body {
   color: #000;
   border-radius: 0.625em;
 }
-  
-
-  
-  @media (min-width: 900px) {
-    .dice {
-      perspective: 1300px;
-    }
-  }
-
-
- 
-

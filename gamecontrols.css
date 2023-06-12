@@ -1,28 +1,27 @@
 #game-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem; /* Adjust as necessary */
-    margin-top: 1rem; /* add some space between dice and controls */
-    padding: 10px;
-    border-radius: 5px;
-    /*background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
-    width: 300px; /* Adjust this as needed */
-  }
+  display: grid;
+  justify-items: center; /* aligns items horizontally */
+  align-items: center; /* aligns items vertically */
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 10px;
+  border-radius: 5px;
+  /*background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+  width: 300px;
+}
 
-  #game-controls button {
-    align-self: center;
-    background-color: #f1f1f1;
-    border: none;
-    color: #333;
-    font-size: 1.25rem;
-    font-weight: 700;
-    justify-self: center;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
+#game-controls button {
+  background-color: #f1f1f1;
+  border: none;
+  color: #333;
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
 
   #game-controls button:hover {
     background-color: #d1d1d1;

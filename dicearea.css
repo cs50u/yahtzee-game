@@ -11,16 +11,21 @@
   border-radius: 0.9375em;
 }
 
+#dice-locker {
+  display: flex;
+  justify-content: space-around;
+}
+
+
 .dice-symbol {
     font-size: 1.9em;
   }
 
-  .die.locked {
-    border: 0.125em solid #000;
-    align-self: flex-start;
+  .locked .die-item {
+    background-color: #d4ffe3;
 }
 
-.die.unlocked {
+.unlocked {
     border: 0.125em solid transparent;
 }
 .dice {
@@ -44,10 +49,10 @@
     width: 3rem;
   }
   .even-roll {
-    transition: transform 1.45s ease-out;
+    transition: transform 1.5s ease-out;
   }
   .odd-roll {
-    transition: transform 1.2s ease-out;
+    transition: transform 1.25s ease-out;
   }
   .die-item {
     background-color: #fefefe;
@@ -193,4 +198,10 @@
   }
   [data-side="6"] .dot:nth-of-type(6) {
     grid-area: nine;
+  }
+
+  @media (min-width: 900px) {
+    .dice {
+      perspective: 1300px;
+    }
   }

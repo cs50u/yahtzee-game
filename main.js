@@ -3,12 +3,65 @@ let rollsRemaining = 3;
 let diceValues = [0, 0, 0, 0, 0];
 let diceLocked = [false, false, false, false, false];
 
-// Function to roll the dice
+// Function to create a die with a given id and even or odd roll class
+function createDie(id, evenOrOddRoll) {
+  let die = "";
+
+  // Iterate through numbers 1 to 6 to create die items with corresponding dots
+  for (let i = 1; i <= 6; i++) {
+    let dieItem = "";
+
+    // Add the required number of dots for the current die item
+    for (let j = 1; j <= i; j++) {
+      dieItem += '<span class="dot"></span>';
+    }
+
+    // Wrap the die item with li tag and append it to the die variable
+    die += `<li class="die-item" data-side="${i}">${dieItem}</li>`;
+  }
+
+  // Wrap the die variable with ol tag and return the complete die element
+  return `<ol class="die-list ${evenOrOddRoll}-roll unlocked" data-roll="1" id="${id}">${die}</ol>`;
+}
+
+// Get the dice container div
+document.addEventListener("DOMContentLoaded", (event) => {
+  const diceContainer = document.getElementById("dice-container");
+
+  diceContainer.innerHTML =
+    createDie("die-0", "even") +
+    createDie("die-1", "odd") +
+    createDie("die-2", "even") +
+    createDie("die-3", "odd") +
+    createDie("die-4", "even");
+
+  // Add click event listeners to each die to lock or unlock it when clicked
+  for (let i = 0; i < 5; i++) {
+    document.getElementById(`die-${i}`).addEventListener("click", function () {
+      const dieIndex = Number(this.id.slice(4));
+
+      if (rollsRemaining < 3) {
+        this.classList.toggle("locked");
+        this.classList.toggle("unlocked");
+        diceLocked[dieIndex] = !diceLocked[dieIndex];
+
+        if (diceLocked[dieIndex]) {
+          document.getElementById("dice-locker").append(this);
+        } else {
+          document.getElementById("dice-container").append(this);
+        }
+      }
+    });
+  }
+});
+
 function rollDice() {
   // Select all dice on the screen
   const dice = [...document.querySelectorAll(".die-list")];
   // For each die, toggle its state and set its roll value to a random number between 1 and 6
-  dice.forEach((die, i) => {
+  dice.forEach((die) => {
+    // Get the index of the die from its id
+    const i = Number(die.id.slice(4));
     if (!diceLocked[i]) {
       toggleClasses(die);
       diceValues[i] = die.dataset.roll = getRandomNumber(1, 6);
@@ -16,13 +69,13 @@ function rollDice() {
   });
 }
 
-// Function to toggle the class of a die. This can be used to change its visual state.
+// Function to toggle the class of a die.
 function toggleClasses(die) {
   die.classList.toggle("odd-roll");
   die.classList.toggle("even-roll");
 }
 
-// Function gets a random number between min and max, inclusive.
+// Function gets a random number 1 - 6
 function getRandomNumber(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -47,13 +100,15 @@ document.getElementById("roll-button").addEventListener("click", function () {
   ).textContent = `Rolls Remaining: ${rollsRemaining}`;
 });
 
-// Function to reset the dice, number of rolls remaining, and re-enable the Roll Dice button for a new turn
 function startNewTurn() {
   // Reset the class of all dice elements
   for (let i = 0; i < 5; i++) {
     let die = document.getElementById(`die-${i}`);
-    die.className = "die unlocked";
+    die.className = `die-list ${i % 2 === 0 ? "even" : "odd"}-roll unlocked`;
     diceLocked[i] = false;
+
+    // Ensure all dice are in the dice container
+    document.getElementById("dice-container").append(die);
   }
 
   // Reset the number of rolls remaining and update its value in the UI
@@ -64,15 +119,6 @@ function startNewTurn() {
 
   // Enable or disable the Roll Dice button based on the number of rolls remaining
   document.getElementById("roll-button").disabled = rollsRemaining === 0;
-}
-
-// Add click event listeners to each die to lock or unlock it when clicked
-for (let i = 0; i < 5; i++) {
-  document.getElementById(`die-${i}`).addEventListener("click", function () {
-    this.classList.toggle("locked");
-    this.classList.toggle("unlocked");
-    diceLocked[i] = !diceLocked[i];
-  });
 }
 
 // Function to calculate the score for a given category
@@ -103,14 +149,6 @@ function calculateScore(category) {
   } else {
     // If the category is a special category, calculate the score based on its rules
     switch (category) {
-      case "chance":
-        score = diceValues.reduce((a, b) => a + b, 0);
-        break;
-      case "yahtzee":
-        if ([...diceCount.values()].includes(5)) {
-          score = 50;
-        }
-        break;
       case "threeOfKind":
         for (let count of diceCount.values()) {
           if (count >= 3) {
@@ -126,10 +164,8 @@ function calculateScore(category) {
         }
         break;
       case "fullHouse":
-        if (
-          [...diceCount.values()].includes(2) &&
-          [...diceCount.values()].includes(3)
-        ) {
+        let counts = [...diceCount.values()];
+        if ((counts.includes(2) && counts.includes(3)) || counts.includes(5)) {
           score = 25;
         }
         break;
@@ -148,6 +184,14 @@ function calculateScore(category) {
           [2, 3, 4, 5, 6].every((i) => diceValues.includes(i))
         ) {
           score = 40;
+        }
+        break;
+      case "chance":
+        score = diceValues.reduce((a, b) => a + b, 0);
+        break;
+      case "yahtzee":
+        if ([...diceCount.values()].includes(5)) {
+          score = 50;
         }
         break;
       default:

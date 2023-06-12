@@ -3,25 +3,40 @@
     border: 0.0625em solid #000000;
     color: #000;
     width: 100%;
+    font-family: Arial, sans-serif;
 }
 
 .table th,
 .table td {
     border: 0.125em solid #000000;
-    padding: 0.125em;
+    padding: 0.25em;
     line-height: 1;
+    vertical-align: middle;
 }
 
-.table td:nth-child(2) {
-    word-wrap: break-word;
-    max-width: 6.25em;
-    text-align: center;
+.table .dice-symbol {
+    vertical-align: middle;
+}
+
+.table td:first-child {
+    font-weight: 550;
 }
 
 .bold-row td:first-child {
-  font-weight: bold;
+  font-weight: 950;
 }
 
-.table .disabled {
-    color: #A9A9A9;
+.table tr td:nth-child(2) {
+    text-align: center;
+    font-size: 1.2em; 
+    font-weight: bold;
 }
+
+/* Add background colors to alternating rows */
+tr:nth-child(odd) {
+    background-color: #FDF5E6; 
+  }
+  
+  tr:nth-child(even) {
+    background-color: #FAEBD7; 
+  }

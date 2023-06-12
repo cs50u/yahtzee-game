@@ -19,154 +19,103 @@
             <table class="table">
                 <tr>
                     <th>Upper Section</th>
-                    <th>How To Score</th>
                     <th>Your Score</th>
                 </tr>
                 <tr data-category="aces">
                     <td>Aces <span class="dice-symbol">&#x2680; &#x2680; &#x2680;</span></td>
-                    <td>Count and add only Aces</td>
                     <td id="aces-score"></td>
                 </tr>
                 <tr data-category="twos">
                     <td>Twos <span class="dice-symbol">&#x2681; &#x2681; &#x2681;</span></td>
-                    <td>Count and add only Twos</td>
                     <td id="twos-score"></td>
                 </tr>
                 <tr data-category="threes">
                     <td>Threes <span class="dice-symbol">&#x2682; &#x2682; &#x2682;</span></td>
-                    <td>Count and add only Threes</td>
                     <td id="threes-score"></td>
                 </tr>
                 <tr data-category="fours">
                     <td>Fours <span class="dice-symbol">&#x2683; &#x2683; &#x2683;</span></td>
-                    <td>Count and add only Fours</td>
                     <td id="fours-score"></td>
                 </tr>
                 <tr data-category="fives">
                     <td>Fives <span class="dice-symbol">&#x2684; &#x2684; &#x2684;</span></td>
-                    <td>Count and add only Fives</td>
                     <td id="fives-score"></td>
                 </tr>
                 <tr data-category="sixes">
                     <td>Sixes <span class="dice-symbol">&#x2685; &#x2685; &#x2685;</span></td>
-                    <td>Count and add only Sixes</td>
                     <td id="sixes-score"></td>
                 </tr>
+
                 <tr class="bold-row">
                     <td>TOTAL</td>
-                    <td>&rArr;</td>
                     <td id="upper-total-score"></td>
                 </tr>
                 <tr class="bold-row">
-                    <td>Bonus (if over 63)</td>
-                    <td>Score 35</td>
+                    <td>Bonus (if 63 or over)</td>
                     <td id="bonus-score"></td>
                 </tr>
                 <tr class="bold-row">
                     <td>TOTAL (of upper half)</td>
-                    <td>&rArr;</td>
                     <td id="total-upper-score"></td>
-                </tr>
-                <tr>
-                    <th>Lower Section</th>
-                    <th>How To Score</th>
-                    <th>Your Score</th>
                 </tr>
                 <tr data-category="threeOfKind">
                     <td>3 of a kind</td>
-                    <td>Add total of all dice</td>
-                    <td id="three-kind-score"></td>
+                    <td id="threeOfKind-score"></td>
                 </tr>
                 <tr data-category="fourOfKind">
                     <td>4 of a kind</td>
-                    <td>Add total of all dice</td>
-                    <td id="four-kind-score"></td>
+                    <td id="fourOfKind-score"></td>
                 </tr>
                 <tr data-category="fullHouse">
                     <td>Full House</td>
-                    <td>Score 25</td>
-                    <td id="full-house-score"></td>
+                    <td id="fullHouse-score"></td>
                 </tr>
                 <tr data-category="smallStraight">
                     <td>Sm. Straight (Sequence of 4)</td>
-                    <td>Score 30</td>
-                    <td id="small-straight-score"></td>
+                    <td id="smallStraight-score"></td>
                 </tr>
                 <tr data-category="largeStraight">
                     <td>Lg. Straight (Sequence of 5)</td>
-                    <td>Score 40</td>
-                    <td id="large-straight-score"></td>
+                    <td id="largeStraight-score"></td>
                 </tr>
                 <tr data-category="yahtzee" class="bold-row">
                     <td>YAHTZEE</td>
-                    <td>Score 50</td>
                     <td id="yahtzee-score"></td>
                 </tr>
                 <tr data-category="chance">
                     <td>Chance</td>
-                    <td>Score total of all 5 dice</td>
                     <td id="chance-score"></td>
                 </tr>
                 <tr class="bold-row">
                     <td>TOTAL (of lower half)</td>
-                    <td>&rArr;</td>
                     <td id="total-lower-score"></td>
                 </tr>
                 <tr class="bold-row">
                     <td>GRAND TOTAL</td>
-                    <td>&rArr;</td>
                     <td id="grand-total-score"></td>
                 </tr>
             </table>
         </div>
         <div id="dice-area">
-            <div id="dice-holder" class="dice-holder">
-                <!-- This will hold the dice that are selected to be 'locked' -->
-            </div>
             <div class="dice" id="dice-container">
             </div>
-
-            <script>
-                // Function to create a die with a given id and even or odd roll class
-                function createDie(id, evenOrOddRoll) {
-                    let die = '';
-
-                    // Iterate through numbers 1 to 6 to create die items with corresponding dots
-                    for (let i = 1; i <= 6; i++) {
-                        let dieItem = '';
-
-                        // Add the required number of dots for the current die item
-                        for (let j = 1; j <= i; j++) {
-                            dieItem += '<span class="dot"></span>';
-                        }
-
-                        // Wrap the die item with li tag and append it to the die variable
-                        die += `<li class="die-item" data-side="${i}">${dieItem}</li>`;
-                    }
-
-                    // Wrap the die variable with ol tag and return the complete die element
-                    return `<ol class="die-list ${evenOrOddRoll}-roll unlocked" data-roll="1" id="${id}">${die}</ol>`;
-                }
-
-                // Get the dice container div
-                const diceContainer = document.getElementById('dice-container');
-
-                // Append the generated dice to the container using the createDie function
-                diceContainer.innerHTML = createDie('die-1', 'even') + createDie('die-2', 'odd') + createDie('die-3', 'even') + createDie('die-4', 'odd') + createDie('die-5', 'even');
-            </script>
 
             <!-- The controls will be added here. -->
             <div id="game-controls">
                 <button type="button" id="roll-button">Roll Dice</button>
                 <div id="rolls-remaining">Rolls Remaining: 3</div>
             </div>
+
+            <div id="dice-locker" class="dice-locker">
+                <!-- This will hold the 'locked' dice -->
+            </div>
         </div>
         <!--div>
             <button id="sound-control">Sound: OFF</button>
         </div-->
-
     </div>
     <script src="main.js"></script>
+
 </body>
 
 </html>
