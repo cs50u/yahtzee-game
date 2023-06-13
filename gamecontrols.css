@@ -1,7 +1,7 @@
 #game-controls {
   display: grid;
-  justify-items: center; /* aligns items horizontally */
-  align-items: center; /* aligns items vertically */
+  justify-items: center;
+  align-items: center;
   gap: 1rem;
   margin-top: 1rem;
   padding: 10px;
@@ -14,8 +14,8 @@
   background-color: #f1f1f1;
   border: none;
   color: #333;
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 600;
   padding: 0.5rem 1rem;
   cursor: pointer;
   border-radius: 5px;
@@ -23,13 +23,13 @@
 }
 
 
-  #game-controls button:hover {
-    background-color: #d1d1d1;
+#game-controls button:hover {
+  background-color: #d1d1d1;
   }
 
-  #rolls-remaining {
-    color: #f1f1f1;
-    background-color: #333; 
-    padding: 0.2em 0.5em; 
-    border-radius: 5px; 
+#rolls-remaining {
+  color: #f1f1f1;
+  background-color: #333; 
+  padding: 0.2em 0.5em; 
+  border-radius: 5px; 
   }

@@ -9,7 +9,7 @@
 .table th,
 .table td {
     border: 0.125em solid #000000;
-    padding: 0.25em;
+    padding: .25em;
     line-height: 1;
     vertical-align: middle;
 }

@@ -3,6 +3,38 @@ let rollsRemaining = 3;
 let diceValues = [0, 0, 0, 0, 0];
 let diceLocked = [false, false, false, false, false];
 
+// Store DOM references for elements accessed multiple times
+let diceContainer, diceLocker, rollsRemainingDisplay, rollButton;
+let diceElements = Array(5);
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Cache the DOM elements here
+  diceContainer = document.getElementById("dice-container");
+  diceLocker = document.getElementById("dice-locker");
+  rollsRemainingDisplay = document.getElementById("rolls-remaining");
+  rollButton = document.getElementById("roll-button");
+
+  diceContainer.innerHTML =
+    createDie("die-0", "even") +
+    createDie("die-1", "odd") +
+    createDie("die-2", "even") +
+    createDie("die-3", "odd") +
+    createDie("die-4", "even");
+
+  // Cache dice elements and add click event listeners to each die
+  for (let i = 0; i < 5; i++) {
+    diceElements[i] = document.getElementById(`die-${i}`);
+    diceElements[i].addEventListener("click", function () {
+      if (rollsRemaining < 3) {
+        this.classList.toggle("locked");
+        this.classList.toggle("unlocked");
+        diceLocked[i] = !diceLocked[i];
+        (diceLocked[i] ? diceLocker : diceContainer).append(this);
+      }
+    });
+  }
+});
+
 // Function to create a die with a given id and even or odd roll class
 function createDie(id, evenOrOddRoll) {
   let die = "";
@@ -23,37 +55,6 @@ function createDie(id, evenOrOddRoll) {
   // Wrap the die variable with ol tag and return the complete die element
   return `<ol class="die-list ${evenOrOddRoll}-roll unlocked" data-roll="1" id="${id}">${die}</ol>`;
 }
-
-// Get the dice container div
-document.addEventListener("DOMContentLoaded", (event) => {
-  const diceContainer = document.getElementById("dice-container");
-
-  diceContainer.innerHTML =
-    createDie("die-0", "even") +
-    createDie("die-1", "odd") +
-    createDie("die-2", "even") +
-    createDie("die-3", "odd") +
-    createDie("die-4", "even");
-
-  // Add click event listeners to each die to lock or unlock it when clicked
-  for (let i = 0; i < 5; i++) {
-    document.getElementById(`die-${i}`).addEventListener("click", function () {
-      const dieIndex = Number(this.id.slice(4));
-
-      if (rollsRemaining < 3) {
-        this.classList.toggle("locked");
-        this.classList.toggle("unlocked");
-        diceLocked[dieIndex] = !diceLocked[dieIndex];
-
-        if (diceLocked[dieIndex]) {
-          document.getElementById("dice-locker").append(this);
-        } else {
-          document.getElementById("dice-container").append(this);
-        }
-      }
-    });
-  }
-});
 
 function rollDice() {
   // Select all dice on the screen
@@ -103,22 +104,20 @@ document.getElementById("roll-button").addEventListener("click", function () {
 function startNewTurn() {
   // Reset the class of all dice elements
   for (let i = 0; i < 5; i++) {
-    let die = document.getElementById(`die-${i}`);
+    let die = diceElements[i];
     die.className = `die-list ${i % 2 === 0 ? "even" : "odd"}-roll unlocked`;
     diceLocked[i] = false;
 
     // Ensure all dice are in the dice container
-    document.getElementById("dice-container").append(die);
+    diceContainer.append(die);
   }
 
   // Reset the number of rolls remaining and update its value in the UI
   rollsRemaining = 3;
-  document.getElementById(
-    "rolls-remaining"
-  ).textContent = `Rolls Remaining: ${rollsRemaining}`;
+  rollsRemainingDisplay.textContent = `Rolls Remaining: ${rollsRemaining}`;
 
   // Enable or disable the Roll Dice button based on the number of rolls remaining
-  document.getElementById("roll-button").disabled = rollsRemaining === 0;
+  rollButton.disabled = rollsRemaining === 0;
 }
 
 // Function to calculate the score for a given category
@@ -206,7 +205,6 @@ function calculateScore(category) {
 let scorecardRows = document.querySelectorAll("#scorecard tr[data-category]");
 scorecardRows.forEach((row) => {
   row.addEventListener("click", function () {
-    // If this category has already been scored, do nothing
     if (this.classList.contains("scored")) {
       return;
     }
