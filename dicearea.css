@@ -6,7 +6,7 @@
   align-items: center;
   flex-wrap: wrap;
   background-color: #8b0013;
-  border: 2.0em solid #654321;
+  border: 1.5em solid #654321;
   padding: 1.25em;
   border-radius: 0.9375em;
 }
@@ -22,7 +22,8 @@
   }
 
   .locked .die-item {
-    background-color: #d4ffe3;
+    background-color: #aff1b2;
+    
 }
 
 .unlocked {
@@ -73,7 +74,7 @@
   }
   .dot {
     align-self: center;
-    background-color: #676767;
+    background-color: #474747;
     border-radius: 50%;
     box-shadow: inset -0.15rem 0.15rem 0.25rem rgba(0, 0, 0, 0.5);
     display: block;

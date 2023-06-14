@@ -98,7 +98,7 @@ document.getElementById("roll-button").addEventListener("click", function () {
   rollsRemaining--;
   document.getElementById(
     "rolls-remaining"
-  ).textContent = `Rolls Remaining: ${rollsRemaining}`;
+  ).textContent = `Rolls Left: ${rollsRemaining}`;
 });
 
 function startNewTurn() {
@@ -218,6 +218,14 @@ scorecardRows.forEach((row) => {
     this.classList.add("scored");
     this.classList.add("disabled"); // Disable this row
 
+    // Calculate and update the total upper half score and the bonus score
+    let totalUpperHalfScore = calculateTotalUpperHalfScore();
+    document.getElementById("upper-total-score").textContent =
+      totalUpperHalfScore;
+
+    let bonusScore = calculateBonusScore(totalUpperHalfScore);
+    document.getElementById("bonus-score").textContent = bonusScore;
+
     // Start a new turn if there are unscored categories remaining
     if (
       document.querySelectorAll("#scorecard tr[data-category]:not(.scored)")
@@ -225,7 +233,51 @@ scorecardRows.forEach((row) => {
     ) {
       startNewTurn();
     } else {
+      // Calculate and update the grand total score
+      let grandTotalScore = calculateGrandTotalScore();
+      document.getElementById("grand-total-score").textContent =
+        grandTotalScore;
+
       alert("Game Over! Thanks for playing.");
     }
   });
 });
+
+function calculateTotalUpperHalfScore() {
+  let totalScore = 0;
+  let upperHalfCategories = [
+    "aces",
+    "twos",
+    "threes",
+    "fours",
+    "fives",
+    "sixes",
+  ];
+
+  upperHalfCategories.forEach((category) => {
+    let categoryScore =
+      parseInt(document.getElementById(`${category}-score`).textContent) || 0;
+    totalScore += categoryScore;
+  });
+
+  return totalScore;
+}
+
+function calculateBonusScore(totalScore) {
+  return totalScore >= 63 ? 35 : 0;
+}
+
+function calculateGrandTotalScore() {
+  let grandTotalScore = 0;
+  let allCategories = [
+    ...document.querySelectorAll("#scorecard tr[data-category]"),
+  ];
+
+  allCategories.forEach((categoryRow) => {
+    let categoryScore =
+      parseInt(categoryRow.querySelector("td:nth-child(2)").textContent) || 0;
+    grandTotalScore += categoryScore;
+  });
+
+  return grandTotalScore;
+}
