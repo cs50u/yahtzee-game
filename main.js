@@ -245,17 +245,13 @@ scorecardRows.forEach((row) => {
       document.getElementById("grand-total-score").textContent =
         grandTotalScore;
 
-      // Wait a bit before showing the game over message
-      setTimeout(() => {
-        let playAgain = confirm(
-          `Game Over! Your grand total score is ${grandTotalScore}. Thanks for playing. Would you like to play again?`
-        );
+      // Update the game over message with the final score
+      document.getElementById(
+        "game-over-message"
+      ).textContent = `Game Over! Your Grand Total score is ${grandTotalScore}. Thanks for playing.`;
 
-        // If the user clicks "OK", reload the page to start a new game
-        if (playAgain) {
-          location.reload();
-        }
-      }, 1000);
+      // Display the modal
+      document.getElementById("myModal").style.display = "block";
     }
   });
 });
@@ -298,3 +294,14 @@ function calculateGrandTotalScore() {
 
   return grandTotalScore;
 }
+
+// Add click event listeners for the Play Again and Quit buttons in the modal
+document.getElementById("play-again").addEventListener("click", function () {
+  // Reload the page to start a new game
+  location.reload();
+});
+
+document.getElementById("quit").addEventListener("click", function () {
+  // Close the modal
+  document.getElementById("myModal").style.display = "none";
+});

@@ -13,9 +13,9 @@ body {
 
 .container {
   display: grid;
-  grid-template-columns: 2fr 3fr;
+  grid-template-columns: 1fr 2fr;
   grid-gap: 0.0625em;
-  max-width:75em;
+  max-width:70em;
   margin: 0 auto;
   padding: 0.625em;
 }
@@ -26,4 +26,30 @@ body {
   background-color: #F5F5DC;
   color: #000;
   border-radius: 0.625em;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+
+.modal-content button {
+  margin: 10px;
 }

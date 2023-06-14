@@ -10,7 +10,7 @@
 .table td {
     border: 0.1em solid #000000;
     padding: .25em;
-    line-height: 1;
+    line-height: 1.1;
     vertical-align: middle;
 }
 
@@ -20,6 +20,9 @@
 
 .table td:first-child {
     font-weight: 550;
+    display: flex;
+    vertical-align: middle;
+    justify-content: space-between;
 }
 
 .bold-row td:first-child {
@@ -28,8 +31,9 @@
 
 .table tr td:nth-child(2) {
     text-align: center;
-    font-size: 1.2em; 
+    font-size: 1.0em; 
     font-weight: bold;
+    width: 20%;
 }
 
 /* Add background colors to alternating rows */
@@ -40,3 +44,8 @@ tr:nth-child(odd) {
   tr:nth-child(even) {
     background-color: #FAEBD7; 
   }
+
+  .score-indicator {
+    text-align: right;
+}
+

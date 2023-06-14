@@ -22,68 +22,74 @@
                     <th>Your Score</th>
                 </tr>
                 <tr data-category="aces">
-                    <td>Aces <span class="dice-symbol">&#x2680; &#x2680; &#x2680;</span></td>
+                    <td>Aces <span class="dice-symbol">&#x2680; &#x2680; &#x2680;</span><span class="score-indicator">=
+                            3</span></td>
                     <td id="aces-score"></td>
                 </tr>
                 <tr data-category="twos">
-                    <td>Twos <span class="dice-symbol">&#x2681; &#x2681; &#x2681;</span></td>
+                    <td>Twos <span class="dice-symbol">&#x2681; &#x2681; &#x2681;</span><span class="score-indicator">=
+                            6</span></td>
                     <td id="twos-score"></td>
                 </tr>
                 <tr data-category="threes">
-                    <td>Threes <span class="dice-symbol">&#x2682; &#x2682; &#x2682;</span></td>
+                    <td>Threes <span class="dice-symbol">&#x2682; &#x2682; &#x2682;</span><span
+                            class="score-indicator">= 9</span></td>
                     <td id="threes-score"></td>
                 </tr>
                 <tr data-category="fours">
-                    <td>Fours <span class="dice-symbol">&#x2683; &#x2683; &#x2683;</span></td>
+                    <td>Fours <span class="dice-symbol">&#x2683; &#x2683; &#x2683;</span><span class="score-indicator">=
+                            12</span></td>
                     <td id="fours-score"></td>
                 </tr>
                 <tr data-category="fives">
-                    <td>Fives <span class="dice-symbol">&#x2684; &#x2684; &#x2684;</span></td>
+                    <td>Fives <span class="dice-symbol">&#x2684; &#x2684; &#x2684;</span><span class="score-indicator">=
+                            15</span></td>
                     <td id="fives-score"></td>
                 </tr>
                 <tr data-category="sixes">
-                    <td>Sixes <span class="dice-symbol">&#x2685; &#x2685; &#x2685;</span></td>
+                    <td>Sixes <span class="dice-symbol">&#x2685; &#x2685; &#x2685;</span><span class="score-indicator">=
+                            18</span></td>
                     <td id="sixes-score"></td>
                 </tr>
 
                 <tr class="bold-row">
-                    <td>TOTAL</td>
+                    <td>TOTAL =<span class="score-indicator">63</span></td>
                     <td id="upper-total-score"></td>
                 </tr>
                 <tr class="bold-row">
-                    <td>Bonus (if 63 or over)</td>
+                    <td>Bonus (If 63 Or Over)<span class="score-indicator">35</span></td>
                     <td id="bonus-score"></td>
                 </tr>
                 <tr data-category="threeOfKind">
-                    <td>3 of a kind</td>
+                    <td>3 &nbsp;of &nbsp;a &nbsp;kind<span class="score-indicator">Sum of All</span></td>
                     <td id="threeOfKind-score"></td>
                 </tr>
                 <tr data-category="fourOfKind">
-                    <td>4 of a kind</td>
+                    <td>4 &nbsp;of &nbsp;a &nbsp;kind<span class="score-indicator">Sum of All</span></td>
                     <td id="fourOfKind-score"></td>
                 </tr>
                 <tr data-category="fullHouse">
-                    <td>Full House</td>
+                    <td>Full House<span class="score-indicator">25</span></td>
                     <td id="fullHouse-score"></td>
                 </tr>
                 <tr data-category="smallStraight">
-                    <td>Sm. Straight (Sequence of 4)</td>
+                    <td>Sm. Straight (Sequence of 4)<span class="score-indicator">30</span></td>
                     <td id="smallStraight-score"></td>
                 </tr>
                 <tr data-category="largeStraight">
-                    <td>Lg. Straight (Sequence of 5)</td>
+                    <td>Lg. Straight (Sequence of 5)<span class="score-indicator">40</span></td>
                     <td id="largeStraight-score"></td>
                 </tr>
                 <tr data-category="yahtzee" class="bold-row">
-                    <td>YAHTZEE</td>
+                    <td>YAHTZEE&nbsp;&nbsp;(5 of a kind)<span class="score-indicator">50</span></td>
                     <td id="yahtzee-score"></td>
                 </tr>
                 <tr data-category="chance">
-                    <td>Chance</td>
+                    <td>Chance &nbsp;<span class="score-indicator">Sum of All</span></td>
                     <td id="chance-score"></td>
                 </tr>
                 <tr class="bold-row">
-                    <td>GRAND TOTAL &rArr;</td>
+                    <td>GRAND TOTAL<span class="score-indicator">&rArr;</span></td>
                     <td id="grand-total-score"></td>
                 </tr>
             </table>
@@ -106,6 +112,14 @@
             <button id="sound-control">Sound: OFF</button>
         </div-->
     </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p id="game-over-message"></p>
+            <button id="play-again">Play Again</button>
+            <button id="quit">Quit</button>
+        </div>
+    </div>
+
     <script src="main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
