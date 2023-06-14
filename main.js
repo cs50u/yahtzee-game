@@ -2,6 +2,7 @@
 let rollsRemaining = 3;
 let diceValues = [0, 0, 0, 0, 0];
 let diceLocked = [false, false, false, false, false];
+let hasRolled = false;
 
 // Store DOM references for elements accessed multiple times
 let diceContainer, diceLocker, rollsRemainingDisplay, rollButton;
@@ -57,6 +58,9 @@ function createDie(id, evenOrOddRoll) {
 }
 
 function rollDice() {
+  // Set hasRolled to true
+  hasRolled = true;
+
   // Select all dice on the screen
   const dice = [...document.querySelectorAll(".die-list")];
   // For each die, toggle its state and set its roll value to a random number between 1 and 6
@@ -102,6 +106,9 @@ document.getElementById("roll-button").addEventListener("click", function () {
 });
 
 function startNewTurn() {
+  // Reset hasRolled to false
+  hasRolled = false;
+
   // Reset the class of all dice elements
   for (let i = 0; i < 5; i++) {
     let die = diceElements[i];
@@ -205,7 +212,7 @@ function calculateScore(category) {
 let scorecardRows = document.querySelectorAll("#scorecard tr[data-category]");
 scorecardRows.forEach((row) => {
   row.addEventListener("click", function () {
-    if (this.classList.contains("scored")) {
+    if (this.classList.contains("scored") || !hasRolled) {
       return;
     }
 
@@ -238,7 +245,17 @@ scorecardRows.forEach((row) => {
       document.getElementById("grand-total-score").textContent =
         grandTotalScore;
 
-      alert("Game Over! Thanks for playing.");
+      // Wait a bit before showing the game over message
+      setTimeout(() => {
+        let playAgain = confirm(
+          `Game Over! Your grand total score is ${grandTotalScore}. Thanks for playing. Would you like to play again?`
+        );
+
+        // If the user clicks "OK", reload the page to start a new game
+        if (playAgain) {
+          location.reload();
+        }
+      }, 1000);
     }
   });
 });
