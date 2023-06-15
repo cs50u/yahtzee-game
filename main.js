@@ -2,7 +2,17 @@
 let rollsRemaining = 3;
 let diceValues = [0, 0, 0, 0, 0];
 let diceLocked = [false, false, false, false, false];
+let yahtzeeCount = 0;
 let hasRolled = false;
+let yahtzeeScore = null; // null means Yahtzee category is not filled yet
+let upperSectionUsed = {
+  aces: false,
+  twos: false,
+  threes: false,
+  fours: false,
+  fives: false,
+  sixes: false,
+};
 
 // Store DOM references for elements accessed multiple times
 let diceContainer, diceLocker, rollsRemainingDisplay, rollButton;
@@ -109,6 +119,9 @@ function startNewTurn() {
   // Reset hasRolled to false
   hasRolled = false;
 
+  // Reset hasYahtzee to false
+  hasYahtzee = false;
+
   // Reset the class of all dice elements
   for (let i = 0; i < 5; i++) {
     let die = diceElements[i];
@@ -170,26 +183,44 @@ function calculateScore(category) {
         }
         break;
       case "fullHouse":
-        let counts = [...diceCount.values()];
-        if ((counts.includes(2) && counts.includes(3)) || counts.includes(5)) {
+        if (yahtzeeScore !== null && upperSectionUsed[diceValues[0]]) {
+          // If Yahtzee box is filled and the corresponding Upper Section box has been used
           score = 25;
+        } else {
+          let counts = [...diceCount.values()];
+          if (
+            (counts.includes(2) && counts.includes(3)) ||
+            counts.includes(5)
+          ) {
+            score = 25;
+          }
         }
         break;
       case "smallStraight":
-        if (
-          [1, 2, 3, 4].every((i) => diceValues.includes(i)) ||
-          [2, 3, 4, 5].every((i) => diceValues.includes(i)) ||
-          [3, 4, 5, 6].every((i) => diceValues.includes(i))
-        ) {
-          score = 30;
+        if (yahtzeeScore !== null && upperSectionUsed[diceValues[0]]) {
+          // If Yahtzee box is filled and the corresponding Upper Section box has been used
+          score = 25;
+        } else {
+          if (
+            [1, 2, 3, 4].every((i) => diceValues.includes(i)) ||
+            [2, 3, 4, 5].every((i) => diceValues.includes(i)) ||
+            [3, 4, 5, 6].every((i) => diceValues.includes(i))
+          ) {
+            score = 30;
+          }
         }
         break;
       case "largeStraight":
-        if (
-          [1, 2, 3, 4, 5].every((i) => diceValues.includes(i)) ||
-          [2, 3, 4, 5, 6].every((i) => diceValues.includes(i))
-        ) {
-          score = 40;
+        if (yahtzeeScore !== null && upperSectionUsed[diceValues[0]]) {
+          // If Yahtzee box is filled and the corresponding Upper Section box has been used
+          score = 25;
+        } else {
+          if (
+            [1, 2, 3, 4, 5].every((i) => diceValues.includes(i)) ||
+            [2, 3, 4, 5, 6].every((i) => diceValues.includes(i))
+          ) {
+            score = 40;
+          }
         }
         break;
       case "chance":
@@ -197,11 +228,17 @@ function calculateScore(category) {
         break;
       case "yahtzee":
         if ([...diceCount.values()].includes(5)) {
-          score = 50;
+          yahtzeeCount++;
+          if (yahtzeeScore === 50) {
+            // If Yahtzee box has been filled with a score of 50
+            score = 100;
+          } else if (yahtzeeScore === 0) {
+            // If Yahtzee box has been filled with a score of 0
+            score = 0;
+          } else {
+            yahtzeeScore = score = 50;
+          }
         }
-        break;
-      default:
-        score = 0;
         break;
     }
   }
@@ -218,7 +255,14 @@ scorecardRows.forEach((row) => {
 
     // Calculate and display the score for this category
     let category = this.dataset.category;
-    let score = calculateScore(category);
+    let score;
+    if (hasYahtzee && category !== "yahtzee") {
+      upperSectionUsed[diceValues[0]] = true; // Mark the corresponding Upper Section box as used
+      // If a Yahtzee has been scored and the clicked category is not "yahtzee", score the sum of the dice
+      score = diceValues.reduce((a, b) => a + b, 0);
+    } else {
+      score = calculateScore(category);
+    }
     document.getElementById(`${category}-score`).textContent = score;
 
     // Mark this category as scored
