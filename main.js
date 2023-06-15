@@ -14,9 +14,54 @@ let upperSectionUsed = {
   sixes: false,
 };
 
+let gameInstructions = document.getElementById("game-instructions");
+let prompts = [
+  "Click 'Roll Dice' to Start.",
+  "Roll again, click to lock dice, or pick a score.",
+  "No more rolls left. Click a cell on the scorecard.",
+  "Category already scored, pick another.",
+  "Rolling Dice...",
+];
+
 // Store DOM references for elements accessed multiple times
 let diceContainer, diceLocker, rollsRemainingDisplay, rollButton;
 let diceElements = Array(5);
+
+// Function to toggle the class of a die.
+function toggleClasses(die) {
+  die.classList.toggle("odd-roll");
+  die.classList.toggle("even-roll");
+}
+// Function gets a random number 1 - 6
+function getRandomNumber(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function rollDice() {
+  // Set hasRolled to true
+  hasRolled = true;
+
+  // Decrement rollsRemaining and update its value in the UI
+  rollsRemaining--;
+  rollsRemainingDisplay.textContent = `Rolls Remaining: ${rollsRemaining}`;
+
+  // Select all dice on the screen
+  const dice = [...document.querySelectorAll(".die-list")];
+  // For each die, toggle its state and set its roll value to a random number between 1 and 6
+  dice.forEach((die) => {
+    // Get the index of the die from its id
+    const i = Number(die.id.slice(4));
+    if (!diceLocked[i]) {
+      toggleClasses(die);
+      diceValues[i] = die.dataset.roll = getRandomNumber(1, 6);
+    }
+  });
+  if (hasRolled) {
+    gameInstructions.textContent = prompts[1];
+  }
+}
 
 function startNewTurn() {
   // Reset hasRolled to false
@@ -38,6 +83,16 @@ function startNewTurn() {
 
   // Enable or disable the Roll Dice button based on the number of rolls remaining
   rollButton.disabled = rollsRemaining === 0;
+
+  // Add a 0.5-second delay before rolling the dice automatically
+  setTimeout(() => {
+    gameInstructions.textContent = prompts[4];
+    if (rollsRemaining > 0) {
+      rollDice();
+      // Update the rolls remaining display after rolling the dice
+      rollsRemainingDisplay.textContent = `Rolls Remaining: ${rollsRemaining}`;
+    }
+  }, 500);
 }
 
 // Function to calculate the score for a given category
@@ -216,6 +271,9 @@ document.addEventListener("DOMContentLoaded", () => {
     createDie("die-3", "odd") +
     createDie("die-4", "even");
 
+  // Display the initial instruction
+  gameInstructions.textContent = prompts[0];
+
   // Add a click event listener to each die. Clicking a die after the first roll in a turn will "lock" that die,
   // preventing it from being rolled in the next roll(s) of the current turn. The die can be "unlocked" by clicking it again.
   for (let i = 0; i < 5; i++) {
@@ -234,7 +292,6 @@ document.addEventListener("DOMContentLoaded", () => {
   rollButton.addEventListener("click", function () {
     // If no rolls remaining, alert the user and exit the function
     if (rollsRemaining <= 0) {
-      alert("No more rolls left! Please score a category.");
       return;
     }
 
@@ -242,12 +299,16 @@ document.addEventListener("DOMContentLoaded", () => {
     rollDice();
 
     // Decrease the number of rolls remaining and update its value in the UI
-    rollsRemaining--;
     rollsRemainingDisplay.textContent = `Rolls Left: ${rollsRemaining}`;
 
     // Disable the button if no rolls left
     if (rollsRemaining === 0) {
       rollButton.disabled = true;
+    }
+
+    if (rollsRemaining <= 0) {
+      gameInstructions.textContent = prompts[2];
+      return;
     }
   });
 
@@ -261,6 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // If the scorecard row has already been scored or no dice have been rolled this turn, ignore the click event.
       // This prevents a category from being scored multiple times and ensures that a category can only be scored after the dice have been rolled.
       if (row.classList.contains("scored") || !hasRolled) {
+        gameInstructions.textContent = prompts[3];
         return;
       }
 
@@ -338,36 +400,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Wrap the die variable with ol tag and return the complete die element
     return `<ol class="die-list ${evenOrOddRoll}-roll unlocked" data-roll="1" id="${id}">${die}</ol>`;
-  }
-
-  function rollDice() {
-    // Set hasRolled to true
-    hasRolled = true;
-
-    // Select all dice on the screen
-    const dice = [...document.querySelectorAll(".die-list")];
-    // For each die, toggle its state and set its roll value to a random number between 1 and 6
-    dice.forEach((die) => {
-      // Get the index of the die from its id
-      const i = Number(die.id.slice(4));
-      if (!diceLocked[i]) {
-        toggleClasses(die);
-        diceValues[i] = die.dataset.roll = getRandomNumber(1, 6);
-      }
-    });
-  }
-
-  // Function to toggle the class of a die.
-  function toggleClasses(die) {
-    die.classList.toggle("odd-roll");
-    die.classList.toggle("even-roll");
-  }
-
-  // Function gets a random number 1 - 6
-  function getRandomNumber(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
   rollsRemainingDisplay.textContent = `Rolls Left: ${rollsRemaining}`;
