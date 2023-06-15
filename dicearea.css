@@ -11,6 +11,17 @@
   border-radius: 0.9375em;
 }
 
+#game-instructions {
+  color: #fff; /* White text color */
+  padding: 0px;
+  margin-bottom: 0px;
+  border-radius: 5px;
+  max-width: 80%; /* Prevent the box from being too wide */
+  text-align: center; /* Center the text inside the box */
+  text-shadow: 2px 2px 2px #000;
+}
+
+
 #dice-locker {
   display: flex;
   justify-content: space-around;
@@ -50,7 +61,7 @@
     width: 3rem;
   }
   .even-roll {
-    transition: transform 1.5s ease-out;
+    transition: transform 1.45s ease-out;
   }
   .odd-roll {
     transition: transform 1.25s ease-out;

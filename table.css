@@ -23,6 +23,7 @@
     display: flex;
     vertical-align: middle;
     justify-content: space-between;
+    font-size: 1.1em;
 }
 
 .bold-row td:first-child {
@@ -31,7 +32,7 @@
 
 .table tr td:nth-child(2) {
     text-align: center;
-    font-size: 1.0em; 
+    font-size: 1.1em; 
     font-weight: bold;
     width: 20%;
 }
