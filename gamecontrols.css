@@ -3,7 +3,7 @@
   justify-items: center;
   align-items: center;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: .4rem;
   padding: 10px;
   border-radius: 5px;
   width: 300px;
@@ -19,7 +19,7 @@
   cursor: pointer;
   border-radius: 25px;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 #game-controls button:hover {
@@ -40,11 +40,10 @@
   box-shadow: none;
 }
 
-
 #rolls-remaining {
   font-size: 1.1rem;
   color: #f1f1f1;
-  background-color: #333; 
+  background-color: #413737; 
   padding: 0.2em 0.5em; 
   border-radius: 5px; 
   }

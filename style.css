@@ -15,9 +15,9 @@ body {
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-gap: 0.0625em;
-  max-width:70em;
+  max-width:75em;
   margin: 0 auto;
-  padding: 0.625em;
+  padding: 0.7em;
 }
 
 #scorecard {
@@ -28,28 +28,53 @@ body {
   border-radius: 0.625em;
 }
 
-/* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: none;
+  position: fixed;
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Modal Content */
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 50%; /* Could be more or less, depending on screen size */
+  width: 50%;
 }
 
 .modal-content button {
   margin: 10px;
+}
+
+#how-to-play {
+  font-family: Arial, sans-serif; /* This is a generic sans-serif font for readability */
+  margin: 30px; /* This gives some space around your How to Play section */
+}
+
+#how-to-play h2 {
+  font-size: 24px; /* This makes your title larger */
+  text-align: center;
+    color: #fff;
+}
+
+#how-to-play ol {
+  width: 60%; /* Set a width for your list. Adjust this according to your design preference. */
+    margin: 0 auto; /* This will center your list. */
+    text-align: left; /* This keeps your list items left-aligned. */
+    color: #fff;
+}
+
+#how-to-play ol li ul {
+  margin-left: 20px; /* This indents your unordered list within the ordered list */
+}
+
+#how-to-play ol li, #how-to-play ol li ul li {
+  margin-bottom: 10px; /* This gives some space between each list item for readability */
+  line-height: 1.6; /* This gives some space between each line of text for readability */
 }
