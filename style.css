@@ -1,14 +1,14 @@
 h1 {
-    text-align: center;
-    color: #fff;
+  text-align: center;
+  color: #fff;
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-image: url('images/dark-wood.jpg');
-    background-color: #000000;
-    background-size: cover;
-    background-position: center;
+  font-family: Arial, Helvetica, sans-serif;
+  background-image: url('images/dark-wood.jpg');
+  background-color: #000000;
+  background-size: cover;
+  background-position: center;
 }
 
 .container {
@@ -53,28 +53,29 @@ body {
 }
 
 #how-to-play {
-  font-family: Arial, sans-serif; /* This is a generic sans-serif font for readability */
-  margin: 30px; /* This gives some space around your How to Play section */
+  font-family: Arial, sans-serif;
+  margin: 20px;
 }
 
 #how-to-play h2 {
-  font-size: 24px; /* This makes your title larger */
+  font-size: 24px;
   text-align: center;
-    color: #fff;
+  color: #fff;
 }
 
 #how-to-play ol {
-  width: 60%; /* Set a width for your list. Adjust this according to your design preference. */
-    margin: 0 auto; /* This will center your list. */
-    text-align: left; /* This keeps your list items left-aligned. */
-    color: #fff;
+  width: 60%;
+  margin: 0 auto;
+  text-align: left;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
 }
 
 #how-to-play ol li ul {
-  margin-left: 20px; /* This indents your unordered list within the ordered list */
+  margin-left: 20px;
 }
 
 #how-to-play ol li, #how-to-play ol li ul li {
-  margin-bottom: 10px; /* This gives some space between each list item for readability */
-  line-height: 1.6; /* This gives some space between each line of text for readability */
+  margin-bottom: 10px;
+  line-height: 1.6;
 }
