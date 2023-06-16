@@ -13,7 +13,7 @@
     line-height: 1.0;
     vertical-align: middle;
     align-items: center;
-    font-size: 1.05em;
+    font-size: 1.1em;
 }
 
 .table .dice-symbol {
@@ -33,7 +33,6 @@
 
 .table tr td:nth-child(2) {
     text-align: center;
-    font-size: 1.05em; 
     font-weight: bold;
     width: 20%;
 }
