@@ -26,6 +26,7 @@ body {
   background-color: #F5F5DC;
   color: #000;
   border-radius: 0.625em;
+  min-width: 22em;
 }
 
 .modal {
@@ -78,11 +79,12 @@ body {
 }
 
 #how-to-play ol {
-  width: 60%;
+  width: 70%;
   margin: 0 auto;
   text-align: left;
   background-color: rgba(0, 0, 0, 0.4);
   color: #fff;
+  max-width:70em;
 }
 
 #how-to-play ol li ul {

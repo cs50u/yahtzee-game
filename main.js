@@ -1,5 +1,5 @@
 // Initialize game variables for number of rolls, dice values, dice lock state,
-// yahtzee score, and the state of the upper section.
+// yahtzee score, and the state of the upper/lower section.
 let rollsRemaining = 3;
 let diceValues = Array(5).fill(0);
 let diceLocked = Array(5).fill(false);
@@ -12,6 +12,15 @@ let upperSectionUsed = {
   fours: false,
   fives: false,
   sixes: false,
+};
+let lowerSectionUsed = {
+  threeOfKind: false,
+  fourOfKind: false,
+  fullHouse: false,
+  smallStraight: false,
+  largeStraight: false,
+  yahtzee: false,
+  chance: false,
 };
 
 let gameInstructions = document.getElementById("game-instructions");
@@ -75,89 +84,108 @@ function calculateScore(category) {
     score =
       categoryMultipliers[category] *
       (diceCount.get(categoryMultipliers[category]) || 0);
-  } else {
-    // If the category is a special category, calculate the score based on its rules
-    switch (category) {
-      case "threeOfKind":
-        for (let count of diceCount.values()) {
-          if (count >= 3) {
-            score = diceValues.reduce((a, b) => a + b, 0);
-          }
-        }
-        break;
-      case "fourOfKind":
-        for (let count of diceCount.values()) {
-          if (count >= 4) {
-            score = diceValues.reduce((a, b) => a + b, 0);
-          }
-        }
-        break;
-      case "fullHouse":
-        if (yahtzeeScore !== null && upperSectionUsed[diceValues[0]]) {
-          // If Yahtzee box is filled and the corresponding Upper Section box has been used
-          score = 25;
-        } else {
-          let counts = [...diceCount.values()];
-          if (
-            (counts.includes(2) && counts.includes(3)) ||
-            counts.includes(5)
-          ) {
-            score = 25;
-          }
-        }
-        break;
-      case "smallStraight":
-        if (yahtzeeScore !== null && upperSectionUsed[diceValues[0]]) {
-          // If Yahtzee box is filled and the corresponding Upper Section box has been used
-          score = 30;
-        } else {
-          if (
-            [1, 2, 3, 4].every((i) => diceValues.includes(i)) ||
-            [2, 3, 4, 5].every((i) => diceValues.includes(i)) ||
-            [3, 4, 5, 6].every((i) => diceValues.includes(i))
-          ) {
-            score = 30;
-          }
-        }
-        break;
-      case "largeStraight":
-        if (yahtzeeScore !== null && upperSectionUsed[diceValues[0]]) {
-          // If Yahtzee box is filled and the corresponding Upper Section box has been used
-          score = 40;
-        } else {
-          if (
-            [1, 2, 3, 4, 5].every((i) => diceValues.includes(i)) ||
-            [2, 3, 4, 5, 6].every((i) => diceValues.includes(i))
-          ) {
-            score = 40;
-          }
-        }
-        break;
-      case "chance":
-        score = diceValues.reduce((a, b) => a + b, 0);
-        break;
-
-      // If a Yahtzee is rolled (all dice have the same value), the scoring depends on the current state of the Yahtzee score:
-      //   If the Yahtzee score box is empty, the score is 50.
-      //   If the Yahtzee score box already contains a 50, the score is incremented by 100.
-      //   If the Yahtzee score box contains a 0, the score remains 0.
-      case "yahtzee":
-        if ([...diceCount.values()].includes(5)) {
-          if (yahtzeeScore === null) {
-            // If Yahtzee box has not yet been filled
-            yahtzeeScore = score = 50;
-          } else if (yahtzeeScore >= 50) {
-            // If Yahtzee box has been filled with a score of 50
-            score += 100;
-            yahtzeeScore += 100;
-          } else if (yahtzeeScore === 0) {
-            // If Yahtzee box has been filled with a score of 0
-            score = 0;
-          }
-        }
-        break;
+    if (score > 0) {
+      upperSectionUsed[category] = true;
     }
   }
+
+  // Check if a Yahtzee has been rolled
+  if ([...diceCount.values()].includes(5)) {
+    // Yahtzee Scoring
+    if (yahtzeeScore === null) {
+      yahtzeeScore = score = 50;
+    } else if (yahtzeeScore >= 50) {
+      score += 100;
+      yahtzeeScore += 100;
+    } else if (yahtzeeScore === 0) {
+      score = 0;
+    }
+
+    // Applying Forced Joker Rule
+    let yahtzeeValue = diceValues[0]; // Value of Yahtzee
+    let upperSectionKey = ["aces", "twos", "threes", "fours", "fives", "sixes"][
+      yahtzeeValue - 1
+    ]; // Convert yahtzeeValue to key
+
+    // Check if corresponding upper section is already used
+    if (upperSectionUsed[upperSectionKey] === false) {
+      score = yahtzeeValue * 5;
+      upperSectionUsed[upperSectionKey] = true;
+    } else if (
+      Object.values(upperSectionUsed).every((value) => value === true) &&
+      lowerSectionUsed[category] === false
+    ) {
+      // If corresponding upper section is used and lower section category is not used, apply Joker Rule
+      switch (category) {
+        case "threeOfKind":
+        case "fourOfKind":
+          score = diceValues.reduce((a, b) => a + b, 0);
+          break;
+        case "fullHouse":
+          score = 25;
+          break;
+        case "smallStraight":
+          score = 30;
+          break;
+        case "largeStraight":
+          score = 40;
+          break;
+        case "chance":
+          score = diceValues.reduce((a, b) => a + b, 0);
+          break;
+      }
+      lowerSectionUsed[category] = true; // Mark category as used
+    } else {
+      // If all sections are used
+      score = 0;
+    }
+  }
+
+  // If the category is a special category, calculate the score based on its rules
+  switch (category) {
+    case "threeOfKind":
+      for (let count of diceCount.values()) {
+        if (count >= 3) {
+          score = diceValues.reduce((a, b) => a + b, 0);
+        }
+      }
+      break;
+    case "fourOfKind":
+      for (let count of diceCount.values()) {
+        if (count >= 4) {
+          score = diceValues.reduce((a, b) => a + b, 0);
+        }
+      }
+      break;
+    case "fullHouse":
+      let counts = [...diceCount.values()];
+      if ((counts.includes(2) && counts.includes(3)) || counts.includes(5)) {
+        score = 25;
+      }
+
+      break;
+    case "smallStraight":
+      if (
+        [1, 2, 3, 4].every((i) => diceValues.includes(i)) ||
+        [2, 3, 4, 5].every((i) => diceValues.includes(i)) ||
+        [3, 4, 5, 6].every((i) => diceValues.includes(i))
+      ) {
+        score = 30;
+      }
+      break;
+    case "largeStraight":
+      if (
+        [1, 2, 3, 4, 5].every((i) => diceValues.includes(i)) ||
+        [2, 3, 4, 5, 6].every((i) => diceValues.includes(i))
+      ) {
+        score = 40;
+      }
+      break;
+    case "chance":
+      score = diceValues.reduce((a, b) => a + b, 0);
+      break;
+  }
+
   return score;
 }
 
@@ -245,9 +273,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   // Add a click listener for the Roll Dice button
   rollButton.addEventListener("click", function () {
-    // If no rolls remaining, alert the user and exit the function
+    // If no rolls remaining, do nothing, exit the function
     if (rollsRemaining <= 0) {
-      alert("No more rolls left! Please score a category.");
       return;
     }
 
