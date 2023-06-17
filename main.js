@@ -342,10 +342,28 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("grand-total-score").textContent =
           grandTotalScore;
 
-        // Update the game over message with the final score
-        document.getElementById(
-          "game-over-message"
-        ).textContent = `Game Over! Your Grand Total score is ${grandTotalScore}. Thanks for playing.`;
+        // Get the leaderboard and its items
+        let leaderboard = document.getElementById("leaderboard");
+        let scores = Array.from(leaderboard.getElementsByTagName("li"));
+
+        // Find the first score that's lower than the player's score
+        let lowerScoreIndex = scores.findIndex((scoreItem) => {
+          let score = parseInt(scoreItem.textContent.split(" - ")[1]);
+          return grandTotalScore > score;
+        });
+
+        // Create the player's leaderboard item
+        let playerItem = document.createElement("li");
+        playerItem.textContent = `Your Score - ${grandTotalScore}`;
+        playerItem.style.color = "yellow"; // Highlight the player's score
+
+        // If the player's score is higher than all leaderboard scores, insert it at the start
+        if (lowerScoreIndex === -1) {
+          leaderboard.appendChild(playerItem);
+        } else {
+          // Otherwise, insert it before the first lower score
+          leaderboard.insertBefore(playerItem, scores[lowerScoreIndex]);
+        }
 
         // Display the modal
         document.getElementById("myModal").style.display = "block";

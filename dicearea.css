@@ -66,7 +66,7 @@
     width: 3rem;
   }
   .even-roll {
-    transition: transform 1.45s ease-out;
+    transition: transform 1.5s ease-out;
   }
   .odd-roll {
     transition: transform 1.25s ease-out;
