@@ -13,7 +13,7 @@
   background-color: #D4AF37;
   border: none;
   color: #3D2B1F;
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   font-weight: 500;
   padding: 0.5rem 3rem;
   cursor: pointer;
@@ -41,7 +41,7 @@
 }
 
 #rolls-remaining {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: #f1f1f1;
   background-color: #413737; 
   padding: 0.2em 0.5em; 

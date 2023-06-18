@@ -61,132 +61,74 @@ function startNewTurn() {
 
 // Function to calculate the score for a given category
 function calculateScore(category) {
-  let score = 0;
-  let diceCount = new Map();
+  let diceCounts = Array(7).fill(0);
+  let sortedDiceValues = [...diceValues].sort();
 
-  // Count the number of each die value
-  diceValues.forEach((value) => {
-    diceCount.set(value, (diceCount.get(value) || 0) + 1);
-  });
+  diceValues.forEach((value) => diceCounts[value]++);
 
-  // Define the multipliers for the number categories
-  const categoryMultipliers = {
-    aces: 1,
-    twos: 2,
-    threes: 3,
-    fours: 4,
-    fives: 5,
-    sixes: 6,
-  };
-
-  // If the category is a number category, calculate the score
-  if (categoryMultipliers.hasOwnProperty(category)) {
-    score =
-      categoryMultipliers[category] *
-      (diceCount.get(categoryMultipliers[category]) || 0);
-    if (score > 0) {
-      upperSectionUsed[category] = true;
-    }
-  }
-
-  // Check if a Yahtzee has been rolled
-  if ([...diceCount.values()].includes(5)) {
-    // Yahtzee Scoring
-    if (yahtzeeScore === null) {
-      yahtzeeScore = score = 50;
-    } else if (yahtzeeScore >= 50) {
-      score += 100;
-      yahtzeeScore += 100;
-    } else if (yahtzeeScore === 0) {
-      score = 0;
-    }
-
-    // Applying Forced Joker Rule
-    let yahtzeeValue = diceValues[0]; // Value of Yahtzee
-    let upperSectionKey = ["aces", "twos", "threes", "fours", "fives", "sixes"][
-      yahtzeeValue - 1
-    ]; // Convert yahtzeeValue to key
-
-    // Check if corresponding upper section is already used
-    if (upperSectionUsed[upperSectionKey] === false) {
-      score = yahtzeeValue * 5;
-      upperSectionUsed[upperSectionKey] = true;
-    } else if (
-      Object.values(upperSectionUsed).every((value) => value === true) &&
-      lowerSectionUsed[category] === false
-    ) {
-      // If corresponding upper section is used and lower section category is not used, apply Joker Rule
-      switch (category) {
-        case "threeOfKind":
-        case "fourOfKind":
-          score = diceValues.reduce((a, b) => a + b, 0);
-          break;
-        case "fullHouse":
-          score = 25;
-          break;
-        case "smallStraight":
-          score = 30;
-          break;
-        case "largeStraight":
-          score = 40;
-          break;
-        case "chance":
-          score = diceValues.reduce((a, b) => a + b, 0);
-          break;
-      }
-      lowerSectionUsed[category] = true; // Mark category as used
-    } else {
-      // If all sections are used
-      score = 0;
-    }
-  }
-
-  // If the category is a special category, calculate the score based on its rules
   switch (category) {
+    case "aces":
+    case "twos":
+    case "threes":
+    case "fours":
+    case "fives":
+    case "sixes":
+      let number =
+        category === "aces"
+          ? 1
+          : category === "twos"
+          ? 2
+          : category === "threes"
+          ? 3
+          : category === "fours"
+          ? 4
+          : category === "fives"
+          ? 5
+          : 6;
+      return diceCounts[number] * number;
+
     case "threeOfKind":
-      for (let count of diceCount.values()) {
-        if (count >= 3) {
-          score = diceValues.reduce((a, b) => a + b, 0);
-        }
-      }
-      break;
+      return diceCounts.some((count) => count >= 3)
+        ? diceValues.reduce((a, b) => a + b, 0)
+        : 0;
+
     case "fourOfKind":
-      for (let count of diceCount.values()) {
-        if (count >= 4) {
-          score = diceValues.reduce((a, b) => a + b, 0);
+      return diceCounts.some((count) => count >= 4)
+        ? diceValues.reduce((a, b) => a + b, 0)
+        : 0;
+
+    case "fullHouse":
+      return diceCounts.some((count) => count === 3) &&
+        diceCounts.some((count) => count === 2)
+        ? 25
+        : 0;
+
+    case "smallStraight":
+      return /1.*2.*3.*4|2.*3.*4.*5|3.*4.*5.*6/.test(sortedDiceValues.join(""))
+        ? 30
+        : 0;
+
+    case "largeStraight":
+      return /1.*2.*3.*4.*5|2.*3.*4.*5.*6/.test(sortedDiceValues.join(""))
+        ? 40
+        : 0;
+
+    case "yahtzee":
+      if (diceCounts.some((count) => count === 5)) {
+        if (yahtzeeScore === null || yahtzeeScore === 50) {
+          return 50;
+        } else if (yahtzeeScore === 50) {
+          return 100;
         }
       }
-      break;
-    case "fullHouse":
-      let counts = [...diceCount.values()];
-      if ((counts.includes(2) && counts.includes(3)) || counts.includes(5)) {
-        score = 25;
-      }
+      return 0;
 
-      break;
-    case "smallStraight":
-      if (
-        [1, 2, 3, 4].every((i) => diceValues.includes(i)) ||
-        [2, 3, 4, 5].every((i) => diceValues.includes(i)) ||
-        [3, 4, 5, 6].every((i) => diceValues.includes(i))
-      ) {
-        score = 30;
-      }
-      break;
-    case "largeStraight":
-      if (
-        [1, 2, 3, 4, 5].every((i) => diceValues.includes(i)) ||
-        [2, 3, 4, 5, 6].every((i) => diceValues.includes(i))
-      ) {
-        score = 40;
-      }
-      break;
     case "chance":
-      score = diceValues.reduce((a, b) => a + b, 0);
-      break;
-  }
+      return diceValues.reduce((a, b) => a + b, 0);
 
-  return score;
+    default:
+      return 0;
+  }
 }
 
 // This function calculates the total score for the upper half categories in the game of Yahtzee.
