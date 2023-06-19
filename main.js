@@ -484,5 +484,5 @@ document.addEventListener("DOMContentLoaded", () => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  rollsRemainingDisplay.textContent = `Rolls Left: ${rollsRemaining}`;
+  rollsRemainingDisplay.textContent = `Rolls Left: ${gameState.rollsRemaining}`;
 });
