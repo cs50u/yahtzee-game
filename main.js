@@ -4,6 +4,7 @@ let gameState = {
   diceValues: Array(5).fill(0),
   diceLocked: Array(5).fill(false),
   hasRolled: false,
+  isYahtzeeRoll: false,
   yahtzeeScore: null, // null means Yahtzee category is not filled yet
   upperSectionUsed: {
     aces: false,
@@ -311,6 +312,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Roll the dice
     rollDice();
 
+    // Check if it's a Yahtzee roll
+    gameState.isYahtzeeRoll = isYahtzee();
+
     // Decrease the number of rolls remaining and update its value in the UI
     gameState.rollsRemaining--;
     rollsRemainingDisplay.textContent = `Rolls Left: ${gameState.rollsRemaining}`;
@@ -343,9 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
       let category = row.dataset.category;
       let score;
 
-      if (category === "yahtzee") {
-        score = calculateScore(category);
-      } else if (isYahtzee() && gameState.yahtzeeScore !== null) {
+      if (gameState.isYahtzeeRoll && gameState.yahtzeeScore !== null) {
         score = calculateScoreWithJoker(category);
       } else {
         score = calculateScore(category);
@@ -364,6 +366,9 @@ document.addEventListener("DOMContentLoaded", () => {
         gameState.lowerSectionScores[category] = score;
       }
       gameState.totalScore += score;
+
+      // Reset the isYahtzeeRoll flag
+      gameState.isYahtzeeRoll = false;
 
       // Mark this category as scored
       row.classList.add("scored");
