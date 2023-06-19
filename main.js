@@ -239,7 +239,7 @@ function calculateTotalUpperHalfScore() {
 
   // For each category in the upper half, get the score from the scorecard and add it to the total score
   upperHalfCategories.forEach((category) => {
-    let categoryScore = gameState.scores[category] || 0; // If the score is not a number, default to 0
+    let categoryScore = gameState.upperSectionScores[category] || 0; // If the score is not a number, default to 0
     totalScore += categoryScore;
   });
 
