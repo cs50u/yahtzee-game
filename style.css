@@ -95,6 +95,12 @@ body {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+#how-to-play p {
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
 #how-to-play ol {
   width: 70%;
   margin: 0 auto;
