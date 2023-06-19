@@ -1,26 +1,49 @@
-// Initialize game variables for number of rolls, dice values, dice lock state,
-// yahtzee score, and the state of the upper/lower section.
-let rollsRemaining = 3;
-let diceValues = Array(5).fill(0);
-let diceLocked = Array(5).fill(false);
-let hasRolled = false;
-let yahtzeeScore = null; // null means Yahtzee category is not filled yet
-let upperSectionUsed = {
-  aces: false,
-  twos: false,
-  threes: false,
-  fours: false,
-  fives: false,
-  sixes: false,
-};
-let lowerSectionUsed = {
-  threeOfKind: false,
-  fourOfKind: false,
-  fullHouse: false,
-  smallStraight: false,
-  largeStraight: false,
-  yahtzee: false,
-  chance: false,
+// Initialize a game state object.
+let gameState = {
+  rollsRemaining: 3,
+  diceValues: Array(5).fill(0),
+  diceLocked: Array(5).fill(false),
+  hasRolled: false,
+  yahtzeeScore: null, // null means Yahtzee category is not filled yet
+  upperSectionUsed: {
+    aces: false,
+    twos: false,
+    threes: false,
+    fours: false,
+    fives: false,
+    sixes: false,
+  },
+  lowerSectionUsed: {
+    threeOfKind: false,
+    fourOfKind: false,
+    fullHouse: false,
+    smallStraight: false,
+    largeStraight: false,
+    yahtzee: false,
+    chance: false,
+  },
+  upperSectionScores: {
+    // keep track of scores
+    aces: null,
+    twos: null,
+    threes: null,
+    fours: null,
+    fives: null,
+    sixes: null,
+  },
+  lowerSectionScores: {
+    // keep track of scores
+    threeOfKind: null,
+    fourOfKind: null,
+    fullHouse: null,
+    smallStraight: null,
+    largeStraight: null,
+    yahtzee: null,
+    chance: null,
+  },
+  totalScore: 0,
+  turnsTaken: 0, // Track the number of turns taken
+  upperSectionBonus: false, // Check if the bonus for upper section is obtained
 };
 
 let gameInstructions = document.getElementById("game-instructions");
@@ -29,6 +52,8 @@ let prompts = [
   "Roll again, click to lock/unlock dice, or pick a score.",
   "No more rolls left. Click a cell on the scorecard.",
   "Category already scored, pick another.",
+  "You Rolled Yahtzee! Score 50",
+  "Whoa! Double Yahtzee?! Joker Rules On",
 ];
 
 // Store DOM references for elements accessed multiple times
@@ -37,34 +62,38 @@ let diceElements = Array(5);
 
 function startNewTurn() {
   // Reset hasRolled to false
-  hasRolled = false;
+  gameState.hasRolled = false;
 
   // Reset the class of all dice elements
   for (let i = 0; i < 5; i++) {
     let die = diceElements[i];
     die.className = `die-list ${i % 2 === 0 ? "even" : "odd"}-roll unlocked`;
-    diceLocked[i] = false;
+    gameState.diceLocked[i] = false;
 
     // Ensure all dice are in the dice container
     diceContainer.append(die);
   }
 
   // Reset the number of rolls remaining and update its value in the UI
-  rollsRemaining = 3;
-  rollsRemainingDisplay.textContent = `Rolls Remaining: ${rollsRemaining}`;
+  gameState.rollsRemaining = 3;
+  rollsRemainingDisplay.textContent = `Rolls Remaining: ${gameState.rollsRemaining}`;
 
   // Enable or disable the Roll Dice button based on the number of rolls remaining
-  rollButton.disabled = rollsRemaining === 0;
+  rollButton.disabled = gameState.rollsRemaining === 0;
 
   gameInstructions.textContent = prompts[0];
 }
 
-// Function to calculate the score for a given category
+function isYahtzee() {
+  let firstDice = gameState.diceValues[0];
+  return gameState.diceValues.every((dice) => dice === firstDice);
+}
+
 function calculateScore(category) {
   let diceCounts = Array(7).fill(0);
-  let sortedDiceValues = [...diceValues].sort();
+  let sortedDiceValues = [...gameState.diceValues].sort();
 
-  diceValues.forEach((value) => diceCounts[value]++);
+  gameState.diceValues.forEach((value) => diceCounts[value]++);
 
   switch (category) {
     case "aces":
@@ -89,12 +118,12 @@ function calculateScore(category) {
 
     case "threeOfKind":
       return diceCounts.some((count) => count >= 3)
-        ? diceValues.reduce((a, b) => a + b, 0)
+        ? gameState.diceValues.reduce((a, b) => a + b, 0)
         : 0;
 
     case "fourOfKind":
       return diceCounts.some((count) => count >= 4)
-        ? diceValues.reduce((a, b) => a + b, 0)
+        ? gameState.diceValues.reduce((a, b) => a + b, 0)
         : 0;
 
     case "fullHouse":
@@ -115,19 +144,81 @@ function calculateScore(category) {
 
     case "yahtzee":
       if (diceCounts.some((count) => count === 5)) {
-        if (yahtzeeScore === null || yahtzeeScore === 50) {
+        if (gameState.yahtzeeScore === null) {
+          gameState.yahtzeeScore = 50;
           return 50;
-        } else if (yahtzeeScore === 50) {
-          return 100;
+        } else if (gameState.yahtzeeScore === 50) {
+          return 100; // 100 extra points for additional Yahtzees
         }
       }
       return 0;
 
     case "chance":
-      return diceValues.reduce((a, b) => a + b, 0);
+      return gameState.diceValues.reduce((a, b) => a + b, 0);
 
     default:
       return 0;
+  }
+}
+
+function calculateScoreWithJoker(category) {
+  let yahtzeeNumber = gameState.diceValues[0]; // All dice have the same number
+  let upperBox = numberToCategory(yahtzeeNumber); // Convert number to corresponding upper box category name
+
+  // If the corresponding Upper Section box is unused then that category must be used.
+  if (!gameState.upperSectionUsed[upperBox]) {
+    return yahtzeeNumber * 5;
+  }
+
+  // If the corresponding Upper Section box has been used already, a Lower Section box must be used.
+  else if (!gameState.lowerSectionUsed[category]) {
+    switch (category) {
+      // 3 of a kind, 4 of a kind, and chance are scored as normal.
+      case "threeOfKind":
+      case "fourOfKind":
+      case "chance":
+        return calculateScore(category);
+
+      // The Yahtzee acts as a Joker so that the Full House, Small Straight and Large Straight categories can be used to score 25, 30 or 40 (respectively).
+      case "fullHouse":
+        return 25;
+      case "smallStraight":
+        return 30;
+      case "largeStraight":
+        return 40;
+
+      default:
+        return 0;
+    }
+  }
+
+  // If the corresponding Upper Section box and all Lower Section boxes have been used, an unused Upper Section box must be used, scoring 0.
+  else {
+    for (let box in gameState.upperSectionUsed) {
+      if (!gameState.upperSectionUsed[box]) {
+        gameState.upperSectionUsed[box] = true;
+        return 0;
+      }
+    }
+  }
+}
+
+function numberToCategory(number) {
+  switch (number) {
+    case 1:
+      return "aces";
+    case 2:
+      return "twos";
+    case 3:
+      return "threes";
+    case 4:
+      return "fours";
+    case 5:
+      return "fives";
+    case 6:
+      return "sixes";
+    default:
+      return null;
   }
 }
 
@@ -147,8 +238,7 @@ function calculateTotalUpperHalfScore() {
 
   // For each category in the upper half, get the score from the scorecard and add it to the total score
   upperHalfCategories.forEach((category) => {
-    let categoryScore =
-      parseInt(document.getElementById(`${category}-score`).textContent) || 0; // If the score is not a number, default to 0
+    let categoryScore = gameState.scores[category] || 0; // If the score is not a number, default to 0
     totalScore += categoryScore;
   });
 
@@ -172,8 +262,8 @@ function calculateGrandTotalScore() {
 
   // For each category, get the score from the scorecard and add it to the grand total score
   allCategories.forEach((categoryRow) => {
-    let categoryScore =
-      parseInt(categoryRow.querySelector("td:nth-child(2)").textContent) || 0; // If the score is not a number, default to 0
+    let category = categoryRow.getAttribute("data-category");
+    let categoryScore = gameState.scores[category] || 0; // If the score is not a number, default to 0
     grandTotalScore += categoryScore;
   });
 
@@ -204,19 +294,17 @@ document.addEventListener("DOMContentLoaded", () => {
   for (let i = 0; i < 5; i++) {
     diceElements[i] = document.getElementById(`die-${i}`);
     diceElements[i].addEventListener("click", function () {
-      // If rolls Remaining is less than 3 and the die is locked, move it to the diceLocker element. Otherwise, move it back to the diceContainer.
-      if (rollsRemaining < 3) {
+      if (gameState.rollsRemaining < 3) {
         this.classList.toggle("locked");
         this.classList.toggle("unlocked");
-        diceLocked[i] = !diceLocked[i];
-        (diceLocked[i] ? diceLocker : diceContainer).append(this);
+        gameState.diceLocked[i] = !gameState.diceLocked[i];
+        (gameState.diceLocked[i] ? diceLocker : diceContainer).append(this);
       }
     });
   }
   // Add a click listener for the Roll Dice button
   rollButton.addEventListener("click", function () {
-    // If no rolls remaining, do nothing, exit the function
-    if (rollsRemaining <= 0) {
+    if (gameState.rollsRemaining <= 0) {
       return;
     }
 
@@ -224,15 +312,14 @@ document.addEventListener("DOMContentLoaded", () => {
     rollDice();
 
     // Decrease the number of rolls remaining and update its value in the UI
-    rollsRemaining--;
-    rollsRemainingDisplay.textContent = `Rolls Left: ${rollsRemaining}`;
+    gameState.rollsRemaining--;
+    rollsRemainingDisplay.textContent = `Rolls Left: ${gameState.rollsRemaining}`;
 
     // Disable the button if no rolls left
-    if (rollsRemaining === 0) {
+    if (gameState.rollsRemaining === 0) {
       rollButton.disabled = true;
     }
-
-    if (rollsRemaining <= 0) {
+    if (gameState.rollsRemaining <= 0) {
       gameInstructions.textContent = prompts[2];
       return;
     }
@@ -247,18 +334,36 @@ document.addEventListener("DOMContentLoaded", () => {
     secondColumn.addEventListener("click", function () {
       // If the scorecard row has already been scored or no dice have been rolled this turn, ignore the click event.
       // This prevents a category from being scored multiple times and ensures that a category can only be scored after the dice have been rolled.
-      if (row.classList.contains("scored") || !hasRolled) {
+      if (row.classList.contains("scored") || !gameState.hasRolled) {
         gameInstructions.textContent = prompts[3];
         return;
       }
 
       // Calculate and display the score for this category
       let category = row.dataset.category;
-      let score = calculateScore(category);
+      let score;
+
+      if (category === "yahtzee") {
+        score = calculateScore(category);
+      } else if (isYahtzee() && gameState.yahtzeeScore !== null) {
+        score = calculateScoreWithJoker(category);
+      } else {
+        score = calculateScore(category);
+      }
+
       if (category !== "yahtzee") {
-        upperSectionUsed[diceValues[0]] = true; // Mark the corresponding Upper Section box as used
+        gameState.upperSectionUsed[gameState.diceValues[0]] = true;
       }
       document.getElementById(`${category}-score`).textContent = score;
+
+      if (Object.keys(gameState.upperSectionUsed).includes(category)) {
+        gameState.upperSectionUsed[category] = true;
+        gameState.upperSectionScores[category] = score;
+      } else if (Object.keys(gameState.lowerSectionUsed).includes(category)) {
+        gameState.lowerSectionUsed[category] = true;
+        gameState.lowerSectionScores[category] = score;
+      }
+      gameState.totalScore += score;
 
       // Mark this category as scored
       row.classList.add("scored");
@@ -348,7 +453,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function rollDice() {
     // Set hasRolled to true
-    hasRolled = true;
+    gameState.hasRolled = true;
 
     // Select all dice on the screen
     const dice = [...document.querySelectorAll(".die-list")];
@@ -356,12 +461,12 @@ document.addEventListener("DOMContentLoaded", () => {
     dice.forEach((die) => {
       // Get the index of the die from its id
       const i = Number(die.id.slice(4));
-      if (!diceLocked[i]) {
+      if (!gameState.diceLocked[i]) {
         toggleClasses(die);
-        diceValues[i] = die.dataset.roll = getRandomNumber(1, 6);
+        gameState.diceValues[i] = die.dataset.roll = getRandomNumber(1, 6);
       }
     });
-    if (hasRolled) {
+    if (gameState.hasRolled) {
       gameInstructions.textContent = prompts[1];
     }
   }
