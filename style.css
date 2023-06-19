@@ -96,9 +96,11 @@ body {
 }
 
 #how-to-play p {
+  font-size: 18px;
   color: #fff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   text-align: center;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 #how-to-play ol {
