@@ -85,6 +85,7 @@ body {
 #how-to-play {
   font-family: Arial, sans-serif;
   margin: 20px;
+  text-align: center;
 }
 
 #how-to-play h2 {
@@ -101,6 +102,9 @@ body {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   text-align: center;
   background-color: rgba(0, 0, 0, 0.4);
+  display: inline-block;
+  padding: 10px; /* Optional: Adds some space around the text */
+  margin: 0 auto; /* Center the paragraph with background color */
 }
 
 #how-to-play ol {

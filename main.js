@@ -5,7 +5,7 @@ let gameState = {
   diceLocked: Array(5).fill(false),
   hasRolled: false,
   isYahtzeeRoll: false,
-  yahtzeeScore: null, // null means Yahtzee category is not filled yet
+  yahtzeeScore: null,
   upperSectionUsed: {
     aces: false,
     twos: false,
@@ -53,8 +53,6 @@ let prompts = [
   "Roll again, click to lock/unlock dice, or pick a score.",
   "No more rolls left. Click a cell on the scorecard.",
   "Category already scored, pick another.",
-  "You Rolled Yahtzee! Score 50",
-  "Whoa! Double Yahtzee?! Joker Rules On",
 ];
 
 // Store DOM references for elements accessed multiple times

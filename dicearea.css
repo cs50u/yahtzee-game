@@ -69,7 +69,7 @@
     transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   .odd-roll {
-    transition: transform 1.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 1.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   
   .die-item {
