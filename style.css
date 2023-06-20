@@ -125,3 +125,31 @@ body {
   margin-bottom: 10px;
   line-height: 1.8;
 }
+
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-gap: 1em;
+  }
+  #dice-area, #scorecard {
+    min-width: 0;
+  }
+  #scorecard {
+    order: 1;
+  }
+  .dice-symbol, .die-list {
+    font-size: 0.8em; /* adjust as necessary */
+    height: 2rem;
+    width: 2rem;
+  }
+  #game-controls button {
+    font-size: 1.8rem; /* adjust as necessary */
+    padding: 1rem 2rem; /* adjust as necessary */
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 14px; /* adjust as necessary */
+  }
+}
