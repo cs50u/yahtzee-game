@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@300;400;500&display=swap');
+
+#how-to-play {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  text-align: center;
+}
+
+#how-to-play h2, #how-to-play h3 {
+  font-size: 26px;
+  text-align: center;
+  color: #fff;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 15px;
+}
+
+#how-to-play p {
+  font-size: 18px;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: inline-block;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+#how-to-play ol {
+  width: 70%;
+  margin: 0 auto;
+  text-align: left;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  max-width:70em;
+  min-width: 40em;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+#how-to-play ol li ul {
+  margin-left: 20px;
+}
+
+#how-to-play ol li, #how-to-play ol li ul li {
+  margin-bottom: 10px;
+  line-height: 1.8;
+  color: #fff;
+}
+
+#how-to-play ul li {
+  margin-bottom: 10px;
+  line-height: 1.8;
+  color: #fff;  /* Add this line to set the font color to white */
+  content: "\2022";
+}
+
+#how-to-play ul li:before {
+  content: "\2022";  /* Add bullet symbol (•) as list item marker */
+  margin-right: 10px;
+}

@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="dicearea.css">
     <link rel="stylesheet" type="text/css" href="gamecontrols.css">
     <link rel="stylesheet" type="text/css" href="table.css">
+    <link rel="stylesheet" type="text/css" href="howtoplay.css">
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -116,56 +117,64 @@
     </div>
     <div id="how-to-play">
         <h2>How to Play</h2>
-        <p>Yahtzee is a fun and challenging dice game. The objective is to score the most points by rolling
-            5 dice to make certain combinations.</p>
+        <p>Yahtzee is a fun and challenging dice game. The objective is to score the most points by rolling 5 dice to
+            make certain combinations.</p>
+        <h3>Gameplay</h3>
         <ol>
-            <li><strong>Start your turn</strong>: Click the "Roll Dice" button. You can roll the dice up to three times
+            <li><strong>Start your turn:</strong> Click the "Roll Dice" button. You can roll the dice up to three times
                 per turn.</li>
-            <li><strong>Lock and unlock dice</strong>: After rolling, you can click on dice to lock or unlock them.
+            <li><strong>Lock and unlock dice:</strong> After rolling, you can click on dice to lock or unlock them.
                 Locked dice will not change in the next roll.</li>
-            <li><strong>Choose your action</strong>: After each roll, you can either roll the dice again or score a
+            <li><strong>Choose your action:</strong> After each roll, you can either roll the dice again or score a
                 category. If you've already rolled three times, you must score a category.</li>
-            <li><strong>Score a category</strong>: Click an empty cell in the scorecard to score your current dice roll
+            <li><strong>Score a category:</strong> Click an empty cell in the scorecard to score your current dice roll
                 for that category. Each category can only be scored once.</li>
-            <li><strong>Scoring categories</strong>: Your score depends on the category and the current dice roll:
+        </ol>
+        <h3>Scoring</h3>
+        <p>Your score depends on the category and the current dice roll:</p>
+        <ul>
+            <li><strong>Aces to Sixes:</strong> The sum of all dice showing the respective number.</li>
+            <li><strong>Three of a Kind:</strong> If at least three dice show the same number, your score is the sum of
+                all dice.</li>
+            <li><strong>Four of a Kind:</strong> If at least four dice show the same number, your score is the sum of
+                all dice.</li>
+            <li><strong>Full House:</strong> Score 25 points if you have three dice showing one number and two dice
+                showing another number (e.g., 3-3-3-6-6).</li>
+            <li><strong>Small Straight:</strong> Score 30 points if you have four dice showing consecutive numbers
+                (e.g., 1-2-3-4).</li>
+            <li><strong>Large Straight:</strong> Score 40 points if you have five dice showing consecutive numbers
+                (e.g., 1-2-3-4-5).</li>
+            <li><strong>Chance:</strong> Your score is the sum of all dice.</li>
+            <li><strong>Yahtzee:</strong> Score 50 points if all dice show the same number. Score an additional 100
+                points for each subsequent Yahtzee (Yahtzee Bonus).</li>
+        </ul>
+
+        <h3>Special Rules</h3>
+        <ol>
+            <li><strong>Yahtzee Bonus:</strong> Score an additional 100 points for each subsequent Yahtzee after the
+                first.</li>
+            <li><strong>Joker Rules (Multiple Yahtzees):</strong> If you roll a Yahtzee but have already filled the
+                Yahtzee box with a score of 50 or 0, it's time to use the Joker rules. You still select a category as
+                usual, but with some exceptions:
                 <ul>
-                    <li><strong>Aces to Sixes</strong>: The sum of all dice showing the respective number.</li>
-                    <li><strong>Three of a Kind</strong>: If at least three dice show the same number, your score is the
-                        sum of all dice.</li>
-                    <li><strong>Four of a Kind</strong>: If at least four dice show the same number, your score is the
-                        sum of all dice.</li>
-                    <li><strong>Full House</strong>: Score 25 points if you have three dice showing one number and two
-                        dice showing another number (e.g., 3-3-3-6-6).</li>
-                    <li><strong>Small Straight</strong>: Score 30 points if you have four dice showing consecutive
-                        numbers (e.g., 1-2-3-4).</li>
-                    <li><strong>Large Straight</strong>: Score 40 points if you have five dice showing consecutive
-                        numbers (e.g., 1-2-3-4-5).</li>
-                    <li><strong>Chance</strong>: Your score is the sum of all dice.</li>
-                    <li><strong>Yahtzee</strong>: Score 50 points if all dice show the same number. Score an additional
-                        100 points for each subsequent Yahtzee (Yahtzee Bonus).</li>
+                    <li><strong>If the number corresponding to your Yahtzee is not yet marked in the Upper
+                            Section:</strong> you must mark it there.</li>
+                    <li><strong>If the corresponding number in the Upper Section is already marked:</strong> you can
+                        score the roll as a Full House, Small Straight, or Large Straight (even if it doesn't meet the
+                        usual requirements) for 25, 30, or 40 points respectively. This is when the Yahtzee acts as a
+                        "Joker". You can also score the roll as a Three of a Kind, Four of a Kind, or Chance, using the
+                        sum of the dice as usual.</li>
+                    <li><strong>If the corresponding number in the Upper Section and all relevant Lower Section
+                            categories are already filled:</strong> you must mark a 0 in an unused Upper Section box.
+                    </li>
                 </ul>
             </li>
-            <li><strong>Joker Rules (Multiple Yahtzees)</strong>: If you roll a Yahtzee but have already filled the
-                Yahtzee box with a score of 50 or 0, it's time to use the Joker rules. You still select a category as
-                usual, but with some exceptions:</li>
-            <ul>
-                <li><strong>If the number corresponding to your Yahtzee is not yet marked in the Upper Section</strong>:
-                    you must mark it there.</li>
-                <li><strong>If the corresponding number in the Upper Section is already marked</strong>:
-                    you can score the roll as a Full House, Small Straight, or Large Straight (even if it doesn't meet
-                    the usual requirements) for 25, 30, or 40 points respectively. This is when the Yahtzee acts as a
-                    "Joker". You can also score the roll as a Three of a Kind, Four of a Kind, or Chance, using the sum
-                    of the dice as usual.</li>
-                <li><strong>If the corresponding number in the Upper Section and all relevant Lower Section categories
-                        are already filled</strong>: you must mark a 0 in an unused Upper Section box.</li>
-            </ul>
-            <li><strong>End of the game</strong>: The game ends when all categories have been scored. Your total score
-                is the
-                sum of all category scores.
-            </li>
+            <li><strong>End of the game:</strong> The game ends when all categories have been scored. Your total score
+                is the sum of all category scores.</li>
         </ol>
         <p>Happy rolling!</p>
     </div>
+
 
 
     <div id="myModal" class="modal">
