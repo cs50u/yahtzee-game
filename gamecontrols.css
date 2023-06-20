@@ -6,7 +6,8 @@
   margin-top: .4rem;
   padding: 10px;
   border-radius: 5px;
-  width: 300px;
+  width: 90%;
+  max-width: 300px;
 }
 
 #game-controls button {

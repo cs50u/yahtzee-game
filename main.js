@@ -150,15 +150,33 @@ function calculateScoreWithJoker(category) {
   let yahtzeeNumber = gameState.diceValues[0]; // All dice have the same number
   let upperBox = numberToCategory(yahtzeeNumber); // Convert number to corresponding upper box category name
 
-  // If the corresponding Upper Section box is unused then that category must be used.
-  if (!gameState.upperSection[upperBox].used) {
-    return yahtzeeNumber * 5;
+  // Check if category is in upper section
+  if (Object.keys(gameState.upperSection).includes(category)) {
+    // If the category is the same as the Yahtzee number's category
+    if (category === upperBox) {
+      // If the corresponding Upper Section box is unused then that category must be used.
+      if (!gameState.upperSection[category].used) {
+        return yahtzeeNumber * 5;
+      } else {
+        return 0;
+      }
+    } else {
+      // For all other categories that don't match the Yahtzee number's category, return 0
+      return 0;
+    }
   }
 
   // If the corresponding Upper Section box has been used already, a Lower Section box must be used.
-  else if (!gameState.lowerSection[category].used) {
+  else if (Object.keys(gameState.lowerSection).includes(category)) {
+    // If all Lower Section boxes have been used, use an unused Upper Section box and score 0.
+    if (
+      Object.values(gameState.lowerSection).every((section) => section.used)
+    ) {
+      return 0;
+    }
+
     switch (category) {
-      // 3 of a kind, 4 of a kind, and chance are scored as normal.
+      // 3 of a kind, 4 of kind, and chance are scored as normal.
       case "threeOfKind":
       case "fourOfKind":
       case "chance":
@@ -174,16 +192,6 @@ function calculateScoreWithJoker(category) {
 
       default:
         return 0;
-    }
-  }
-
-  // If the corresponding Upper Section box and all Lower Section boxes have been used, an unused Upper Section box must be used, scoring 0.
-  else {
-    for (let box in gameState.upperSection) {
-      if (!gameState.upperSection[box].used) {
-        gameState.upperSection[box].used = true;
-        return 0;
-      }
     }
   }
 }
@@ -292,6 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
   // Add a click listener for the Roll Dice button
   rollButton.addEventListener("click", function () {
     if (gameState.rollsRemaining <= 0) {

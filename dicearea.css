@@ -225,3 +225,17 @@
       perspective: 1300px;
     }
   }
+
+  @media (max-width: 600px) {
+    #dice-area {
+      min-width: 20em;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .die-list {
+      height: 2rem;
+      width: 2rem;
+    }
+  }
+  
