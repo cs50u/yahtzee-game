@@ -337,7 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
     rollButton.disabled = true;
     setTimeout(() => {
       rollButton.disabled = false;
-    }, 1480);
+    }, 1450);
   });
 
   // Add click Event Listeners for the second column of each row on the scorecard
