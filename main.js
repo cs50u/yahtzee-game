@@ -303,28 +303,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Add a click listener for the Roll Dice button
   rollButton.addEventListener("click", function () {
-    if (gameState.rollsRemaining <= 0) {
-      return;
+    try {
+      if (gameState.rollsRemaining <= 0) {
+        return;
+      }
+
+      // Roll the dice
+      rollDice();
+
+      // Check if it's a Yahtzee roll
+      gameState.isYahtzeeRoll = isYahtzee();
+
+      // Decrease the number of rolls remaining and update its value in the UI
+      gameState.rollsRemaining--;
+      rollsRemainingDisplay.textContent = `Rolls Left: ${gameState.rollsRemaining}`;
+
+      // Disable the button if no rolls left
+      if (gameState.rollsRemaining === 0) {
+        rollButton.disabled = true;
+      }
+
+      if (gameState.rollsRemaining <= 0) {
+        gameInstructions.textContent = prompts[2];
+        return;
+      }
+    } catch (error) {
+      console.error("An error occurred during the roll:", error);
+      // Handle the error appropriately, such as displaying an error message to the user
+    } finally {
+      rollButton.disabled = false; // Re-enable the roll button after the animation
     }
-
-    // Roll the dice
-    rollDice();
-
-    // Check if it's a Yahtzee roll
-    gameState.isYahtzeeRoll = isYahtzee();
-
-    // Decrease the number of rolls remaining and update its value in the UI
-    gameState.rollsRemaining--;
-    rollsRemainingDisplay.textContent = `Rolls Left: ${gameState.rollsRemaining}`;
-
-    // Disable the button if no rolls left
-    if (gameState.rollsRemaining === 0) {
-      rollButton.disabled = true;
-    }
-    if (gameState.rollsRemaining <= 0) {
-      gameInstructions.textContent = prompts[2];
-      return;
-    }
+    // Disable the roll button and re-enable it after 1.55 seconds
+    rollButton.disabled = true;
+    setTimeout(() => {
+      rollButton.disabled = false;
+    }, 1480);
   });
 
   // Add click Event Listeners for the second column of each row on the scorecard
