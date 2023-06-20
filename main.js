@@ -1,53 +1,39 @@
-// Initialize a game state object.
+// Initialize a game state object with various properties to track the game status.
 let gameState = {
-  rollsRemaining: 3,
-  diceValues: Array(5).fill(0),
-  diceLocked: Array(5).fill(false),
-  hasRolled: false,
-  isYahtzeeRoll: false,
-  yahtzeeScore: null,
-  upperSectionUsed: {
-    aces: false,
-    twos: false,
-    threes: false,
-    fours: false,
-    fives: false,
-    sixes: false,
+  rollsRemaining: 3, // Number of dice rolls remaining for the current turn
+  diceValues: Array(5).fill(0), // Stores the current values of the dice
+  diceLocked: Array(5).fill(false), // Flags to determine which dice are locked
+  hasRolled: false, // Flag to check if the player has rolled the dice at least once in the current turn
+  isYahtzeeRoll: false, // Flag to check if the current roll is a Yahtzee (all dice showing the same number)
+  yahtzeeScore: null, // Stores the score if a Yahtzee has been rolled, null otherwise
+  upperSection: {
+    // Tracks the used state and score for each category in the upper section
+    aces: { used: false, score: null },
+    twos: { used: false, score: null },
+    threes: { used: false, score: null },
+    fours: { used: false, score: null },
+    fives: { used: false, score: null },
+    sixes: { used: false, score: null },
   },
-  lowerSectionUsed: {
-    threeOfKind: false,
-    fourOfKind: false,
-    fullHouse: false,
-    smallStraight: false,
-    largeStraight: false,
-    yahtzee: false,
-    chance: false,
+  lowerSection: {
+    // Tracks the used state and score for each category in the lower section
+    threeOfKind: { used: false, score: null },
+    fourOfKind: { used: false, score: null },
+    fullHouse: { used: false, score: null },
+    smallStraight: { used: false, score: null },
+    largeStraight: { used: false, score: null },
+    yahtzee: { used: false, score: null },
+    chance: { used: false, score: null },
   },
-  upperSectionScores: {
-    // keep track of scores
-    aces: null,
-    twos: null,
-    threes: null,
-    fours: null,
-    fives: null,
-    sixes: null,
-  },
-  lowerSectionScores: {
-    // keep track of scores
-    threeOfKind: null,
-    fourOfKind: null,
-    fullHouse: null,
-    smallStraight: null,
-    largeStraight: null,
-    yahtzee: null,
-    chance: null,
-  },
-  totalScore: 0,
-  turnsTaken: 0, // Track the number of turns taken
-  upperSectionBonus: false, // Check if the bonus for upper section is obtained
+  totalScore: 0, // The total score of the player
+  turnsTaken: 0, // Tracks the number of turns taken by the player
+  upperSectionBonus: false, // Flag to track if the bonus for upper section is obtained
 };
 
+// Get the game instruction element from the DOM
 let gameInstructions = document.getElementById("game-instructions");
+
+// Define the array of instruction prompts
 let prompts = [
   "Click 'Roll Dice' button",
   "Roll again, click to lock/unlock dice, or pick a score.",
@@ -165,12 +151,12 @@ function calculateScoreWithJoker(category) {
   let upperBox = numberToCategory(yahtzeeNumber); // Convert number to corresponding upper box category name
 
   // If the corresponding Upper Section box is unused then that category must be used.
-  if (!gameState.upperSectionUsed[upperBox]) {
+  if (!gameState.upperSection[upperBox].used) {
     return yahtzeeNumber * 5;
   }
 
   // If the corresponding Upper Section box has been used already, a Lower Section box must be used.
-  else if (!gameState.lowerSectionUsed[category]) {
+  else if (!gameState.lowerSection[category].used) {
     switch (category) {
       // 3 of a kind, 4 of a kind, and chance are scored as normal.
       case "threeOfKind":
@@ -193,15 +179,16 @@ function calculateScoreWithJoker(category) {
 
   // If the corresponding Upper Section box and all Lower Section boxes have been used, an unused Upper Section box must be used, scoring 0.
   else {
-    for (let box in gameState.upperSectionUsed) {
-      if (!gameState.upperSectionUsed[box]) {
-        gameState.upperSectionUsed[box] = true;
+    for (let box in gameState.upperSection) {
+      if (!gameState.upperSection[box].used) {
+        gameState.upperSection[box].used = true;
         return 0;
       }
     }
   }
 }
 
+// This function converts the dice value to its corresponding category name
 function numberToCategory(number) {
   switch (number) {
     case 1:
@@ -237,7 +224,7 @@ function calculateTotalUpperHalfScore() {
 
   // For each category in the upper half, get the score from the scorecard and add it to the total score
   upperHalfCategories.forEach((category) => {
-    let categoryScore = gameState.upperSectionScores[category] || 0; // If the score is not a number, default to 0
+    let categoryScore = gameState.upperSection[category].score || 0;
     totalScore += categoryScore;
   });
 
@@ -262,11 +249,15 @@ function calculateGrandTotalScore() {
   // For each category, get the score from the scorecard and add it to the grand total score
   allCategories.forEach((categoryRow) => {
     let category = categoryRow.getAttribute("data-category");
-    let categoryScore = gameState.scores[category] || 0; // If the score is not a number, default to 0
+    let categoryScore;
+    if (gameState.upperSection.hasOwnProperty(category)) {
+      categoryScore = gameState.upperSection[category].score || 0;
+    } else if (gameState.lowerSection.hasOwnProperty(category)) {
+      categoryScore = gameState.lowerSection[category].score || 0;
+    }
     grandTotalScore += categoryScore;
   });
-
-  return grandTotalScore; // Return the grand total score
+  return grandTotalScore;
 }
 
 // The DOMContentLoaded event is used to ensure that the HTML is fully loaded before the script runs.
@@ -337,32 +328,44 @@ document.addEventListener("DOMContentLoaded", () => {
       // If the scorecard row has already been scored or no dice have been rolled this turn, ignore the click event.
       // This prevents a category from being scored multiple times and ensures that a category can only be scored after the dice have been rolled.
       if (row.classList.contains("scored") || !gameState.hasRolled) {
-        gameInstructions.textContent = prompts[3];
+        gameInstructions.textContent = prompts[3]; // Display the appropriate message to the user
         return;
       }
 
       // Calculate and display the score for this category
-      let category = row.dataset.category;
+      let category = row.dataset.category; // Get the category from the clicked row
       let score;
 
+      // Check if the roll is a Yahtzee roll and a Yahtzee score exists
       if (gameState.isYahtzeeRoll && gameState.yahtzeeScore !== null) {
+        // If so, calculate the score using the joker rules
         score = calculateScoreWithJoker(category);
       } else {
+        // Otherwise, calculate the score normally
         score = calculateScore(category);
       }
 
+      // If the category isn't yahtzee, set the upperSectionUsed for the category corresponding to the first dice value to true
       if (category !== "yahtzee") {
-        gameState.upperSectionUsed[gameState.diceValues[0]] = true;
+        let numberCategory = numberToCategory(gameState.diceValues[0]); // Convert the dice value to its corresponding category name
+        gameState.upperSection[numberCategory].used = true; // Set the upperSection's used property for the corresponding category to true
       }
+
+      // Set the displayed score for the selected category
       document.getElementById(`${category}-score`).textContent = score;
 
-      if (Object.keys(gameState.upperSectionUsed).includes(category)) {
-        gameState.upperSectionUsed[category] = true;
-        gameState.upperSectionScores[category] = score;
-      } else if (Object.keys(gameState.lowerSectionUsed).includes(category)) {
-        gameState.lowerSectionUsed[category] = true;
-        gameState.lowerSectionScores[category] = score;
+      // Check if the category belongs to the upper section, and if so, update the gameState
+      if (Object.keys(gameState.upperSection).includes(category)) {
+        gameState.upperSection[category].used = true; // Mark the category as used
+        gameState.upperSection[category].score = score; // Update the score for the category
       }
+      // Check if the category belongs to the lower section, and if so, update the gameState
+      else if (Object.keys(gameState.lowerSection).includes(category)) {
+        gameState.lowerSection[category].used = true; // Mark the category as used
+        gameState.lowerSection[category].score = score; // Update the score for the category
+      }
+
+      // Add the score for the current category to the total score
       gameState.totalScore += score;
 
       // Reset the isYahtzeeRoll flag
