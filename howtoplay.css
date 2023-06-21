@@ -5,6 +5,7 @@
   text-align: center;
   color: #fff;
   margin: 0 auto;
+  max-width: 80em;
 }
 
 #how-to-play h2, #how-to-play h3 {
@@ -26,7 +27,7 @@
 }
 
 #how-to-play ul, #how-to-play ol {
-  width: 70%;
+  width: 90%;
   margin: 0 auto;
   text-align: left;
   background-color: rgba(0, 0, 0, 0.4);
