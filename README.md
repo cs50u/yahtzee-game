@@ -3,7 +3,7 @@
 #### Description:
 ## Introduction
 
-This project is a web-based implementation of the classic Yahtzee dice game. Players can roll dice, calculate scores, and compete against each other in a simple and user-friendly interface.
+This project is a web-based implementation of the classic Yahtzee dice game. It is Yahtzee solitaire; solo-only. Players can roll dice, calculate scores, and try to get a high score.
 
 ## Features
 
