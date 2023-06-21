@@ -14,8 +14,13 @@ This project is a web-based implementation of the classic Yahtzee dice game. Pla
 ## File Structure
 
 - `index.html`: The main HTML file containing the game board layout
-- `styles.css`: The CSS file for styling the game elements
-- `script.js`: The JavaScript file containing the game logic and interactions
+- `style.css`: The CSS file for styling the game elements
+- `table.css`: The CSS file for the scorecard table
+- `gamecontrols.css`: The CSS file for the game controls
+- `dicearea.css`: The CSS file for the dice area
+- `howtoplay.css`: The CSS file for the how to play section
+- `main.js`: The JavaScript file containing the game logic and interactions
+
 
 ## Installation and Setup
 
@@ -24,16 +29,17 @@ This project is a web-based implementation of the classic Yahtzee dice game. Pla
 
 ## Usage
 
-- Click on the dice to roll them
-- Select the scoring option from the game board
-- Press 'R' to reset the game
+- Click on the 'Roll Dice' button to roll the unlocked dice
+- Click any dice to toggle lock/unlock state
+- Select the scoring option from the scorecard
 
 ## Design Choices
 
-The dice animations were implemented using CSS animations inspired by [this source](https://codesandbox.io/s/animated-3d-dice-roll-eorl0). This choice was made because CSS animations provide smooth and realistic animations without the need for external libraries.
+The style was that of a classic casino or table game setting. The UI is clear, easy to read, dark backgrounds with light text. The dice animations were implemented using CSS animations inspired by [this source](https://codesandbox.io/s/animated-3d-dice-roll-eorl0). This choice was made because CSS animations provide smooth and realistic animations without the need for external libraries. The Roll Dice button was modeled to resemble the Amazon "Add to Cart" button.
 
 ## Credits
 
+- Tina, for the idea for making Yahtzee and being awesome!
 - CSS animations for dice rolls inspired by [this source](https://codesandbox.io/s/animated-3d-dice-roll-eorl0)
 
 ## Roadmap
