@@ -30,6 +30,13 @@ let gameState = {
   upperSectionBonus: false, // Flag to track if the bonus for upper section is obtained
 };
 
+// Reference the SVG circles
+let rollIndicators = [
+  document.getElementById("circle-0"),
+  document.getElementById("circle-1"),
+  document.getElementById("circle-2"),
+];
+
 // Get the game instruction element from the DOM
 let gameInstructions = document.getElementById("game-instructions");
 
@@ -62,6 +69,7 @@ function startNewTurn() {
   // Reset the number of rolls remaining and update its value in the UI
   gameState.rollsRemaining = 3;
   rollsRemainingDisplay.textContent = `Rolls Remaining: ${gameState.rollsRemaining}`;
+  rollIndicators.forEach((circle) => circle.setAttribute("fill", "#D4AF37")); // Yellow color
 
   // Enable or disable the Roll Dice button based on the number of rolls remaining
   rollButton.disabled = gameState.rollsRemaining === 0;
@@ -321,6 +329,9 @@ document.addEventListener("DOMContentLoaded", () => {
       gameState.rollsRemaining--;
       rollsRemainingDisplay.textContent = `Rolls Left: ${gameState.rollsRemaining}`;
 
+      // Update the visual indicator
+      rollIndicators[gameState.rollsRemaining].setAttribute("fill", "#8b0013"); // Same as table color
+
       // Disable the button if no rolls left
       if (gameState.rollsRemaining === 0) {
         rollButton.disabled = true;
@@ -340,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (gameState.rollsRemaining > 0) {
           rollButton.disabled = false;
         }
-      }, 1450);
+      }, 1200);
     }
   });
 

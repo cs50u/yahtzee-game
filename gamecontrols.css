@@ -2,8 +2,8 @@
   display: grid;
   justify-items: center;
   align-items: center;
-  gap: 1rem;
-  margin-top: .4rem;
+  gap: .1rem;
+  margin-top: .1rem;
   padding: 10px;
   border-radius: 5px;
   width: 90%;
@@ -14,7 +14,7 @@
   background-color: #D4AF37;
   border: none;
   color: #3D2B1F;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 500;
   padding: 0.5rem 3rem;
   cursor: pointer;
@@ -48,3 +48,12 @@
   padding: 0.2em 0.5em; 
   border-radius: 5px; 
   }
+
+  #roll-indicator {
+    display: flex;
+    justify-content: space-around;
+}
+
+.circle {
+    transition: all 0.25s ease;
+}

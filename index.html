@@ -107,7 +107,18 @@
             <!-- The controls will be added here. -->
             <div id="game-controls">
                 <button type="button" id="roll-button">Roll Dice</button>
-                <div id="rolls-remaining">Rolls Left: 3</div>
+                <div id="roll-indicator">
+                    <svg class="circle" height="50" width="50">
+                        <circle id="circle-0" cx="25" cy="25" r="10" fill="#D4AF37" />
+                    </svg>
+                    <svg class="circle" height="50" width="50">
+                        <circle id="circle-1" cx="25" cy="25" r="10" fill="#D4AF37" />
+                    </svg>
+                    <svg class="circle" height="50" width="50">
+                        <circle id="circle-2" cx="25" cy="25" r="10" fill="#D4AF37" />
+                    </svg>
+                </div>
+                <div id="rolls-remaining">Rolls Remaining: 3</div>
             </div>
 
             <div id="dice-locker" class="dice-locker">
