@@ -19,7 +19,7 @@ This project is a web-based implementation of the classic Yahtzee dice game. Pla
 
 ## Installation and Setup
 
-1. Clone the repository: `git clone https://github.com/yourusername/yahtzee-dice-game.git`
+1. Clone the repository: `git clone https://github.com/cs50u/yahtzee-game/'
 2. Open `index.html` in your favorite web browser
 
 ## Usage
@@ -30,11 +30,11 @@ This project is a web-based implementation of the classic Yahtzee dice game. Pla
 
 ## Design Choices
 
-The dice animations were implemented using CSS animations inspired by ~[this source](https://codesandbox.io/s/animated-3d-dice-roll-eorl0)~. This choice was made because CSS animations provide smooth and realistic animations without the need for external libraries.
+The dice animations were implemented using CSS animations inspired by [this source](https://codesandbox.io/s/animated-3d-dice-roll-eorl0). This choice was made because CSS animations provide smooth and realistic animations without the need for external libraries.
 
 ## Credits
 
-- CSS animations for dice rolls inspired by ~[this source](https://codesandbox.io/s/animated-3d-dice-roll-eorl0)~
+- CSS animations for dice rolls inspired by [this source](https://codesandbox.io/s/animated-3d-dice-roll-eorl0)
 
 ## Roadmap
 
