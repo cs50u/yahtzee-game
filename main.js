@@ -74,12 +74,15 @@ function isYahtzee() {
   return gameState.diceValues.every((dice) => dice === firstDice);
 }
 
+// Calculates and returns the score based on the category and the current dice values
 function calculateScore(category) {
+  // Count the occurrences of each dice value
   let diceCounts = Array(7).fill(0);
   let sortedDiceValues = [...gameState.diceValues].sort();
 
   gameState.diceValues.forEach((value) => diceCounts[value]++);
 
+  // Switch case to handle different scoring rules for each category
   switch (category) {
     case "aces":
     case "twos":
@@ -118,16 +121,19 @@ function calculateScore(category) {
         : 0;
 
     case "smallStraight":
+      // Return 30 for small straight if there are 4 consecutive dice
       return /1.*2.*3.*4|2.*3.*4.*5|3.*4.*5.*6/.test(sortedDiceValues.join(""))
         ? 30
         : 0;
 
     case "largeStraight":
+      // Return 40 for large straight if there are 5 consecutive dice
       return /1.*2.*3.*4.*5|2.*3.*4.*5.*6/.test(sortedDiceValues.join(""))
         ? 40
         : 0;
 
     case "yahtzee":
+      // Special handling for yahtzee category
       if (diceCounts.some((count) => count === 5)) {
         if (gameState.yahtzeeScore === null) {
           gameState.yahtzeeScore = 50;
@@ -307,13 +313,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (gameState.rollsRemaining <= 0) {
         return;
       }
-
       // Roll the dice
       rollDice();
-
       // Check if it's a Yahtzee roll
       gameState.isYahtzeeRoll = isYahtzee();
-
       // Decrease the number of rolls remaining and update its value in the UI
       gameState.rollsRemaining--;
       rollsRemainingDisplay.textContent = `Rolls Left: ${gameState.rollsRemaining}`;
@@ -322,7 +325,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (gameState.rollsRemaining === 0) {
         rollButton.disabled = true;
       }
-
       if (gameState.rollsRemaining <= 0) {
         gameInstructions.textContent = prompts[2];
         return;
@@ -331,13 +333,15 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("An error occurred during the roll:", error);
       // Handle the error appropriately, such as displaying an error message to the user
     } finally {
-      rollButton.disabled = false; // Re-enable the roll button after the animation
+      // Move the disabling of the button here.
+      rollButton.disabled = true;
+      setTimeout(() => {
+        // Only re-enable the button if there are rolls left.
+        if (gameState.rollsRemaining > 0) {
+          rollButton.disabled = false;
+        }
+      }, 1450);
     }
-    // Disable the roll button and re-enable it after 1.55 seconds
-    rollButton.disabled = true;
-    setTimeout(() => {
-      rollButton.disabled = false;
-    }, 1450);
   });
 
   // Add click Event Listeners for the second column of each row on the scorecard
