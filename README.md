@@ -44,6 +44,9 @@ The style was that of a classic casino or table game setting. The UI is clear, e
 
 ## Roadmap
 
+- Add sound effects
+- Add Interactive Tutorial for new players
+- Add AI opponent
 - Add multiplayer support
 - Implement a leaderboard system
 - Improve the user interface and design
