@@ -455,10 +455,10 @@ document.addEventListener("DOMContentLoaded", () => {
           leaderboard.insertBefore(playerItem, scores[lowerScoreIndex]);
         }
 
-        // Display the modal after 1.5 second pause
+        // Display the modal after 1.0 second pause
         setTimeout(function () {
           document.getElementById("myModal").style.display = "block";
-        }, 1200);
+        }, 1000);
       }
       rollButton.disabled = false;
     });
