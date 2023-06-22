@@ -97,6 +97,7 @@ footer {
   .container {
     grid-template-columns: 1fr;
     grid-gap: 1em;
+    
   }
   #scorecard {
     order: 1;
