@@ -5,6 +5,20 @@
 
 This project is a web-based implementation of the classic Yahtzee dice game. It is Yahtzee solitaire; solo-only. Players can roll dice, calculate scores, and try to get a high score.
 
+## Notice
+
+This repository contains the source code for a Yahtzee Solitaire game developed by Harasoft LLC. The code is made publicly available for viewing as part of its hosting on GitHub Pages.
+
+However, please be aware that no license is granted in respect of those intellectual property rights. Harasoft LLC retains all rights and interest in the code contained in this repository.
+
+This means:
+
+- You may not use the code contained in this repository.
+- You may not modify the code contained in this repository.
+- You may not distribute the code contained in this repository.
+- You may not create derivative works from the code contained in this repository.
+- Any use, modification, distribution, or creation of derivative works must be explicitly authorized in writing by Harasoft LLC.
+
 ## Features
 
 - Roll dice with realistic animations
@@ -137,6 +151,7 @@ The style was that of a classic casino or table game setting. The UI is clear, e
 
 - Tina, for the idea for making Yahtzee and being awesome!
 - CSS animations for dice rolls inspired by [this source](https://codesandbox.io/s/animated-3d-dice-roll-eorl0)
+- All my friends and family who helped.
 
 ## Roadmap
 
