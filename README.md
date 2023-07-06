@@ -1,23 +1,22 @@
 # Yahtzee Solitaire
 #### Video Demo:  https://youtu.be/96wRhNzc9J8
 #### Description:
-## Introduction
+# Introduction
 
-This project is a web-based implementation of the classic Yahtzee dice game. It is Yahtzee solitaire; solo-only. Players can roll dice, calculate scores, and try to get a high score.
+This project is a web-based implementation of a classic dice game, developed independently and not affiliated with any existing games in the market, such as Yahtzee™ which is a trademark of Hasbro, Inc. This solitaire version allows players to roll dice, calculate scores, and try for a high score in a solo setting.
 
-## Notice
+# Notice
 
-This repository contains the source code for a Yahtzee Solitaire game developed by Harasoft LLC. The code is made publicly available for viewing as part of its hosting on GitHub Pages.
+This repository contains the source code for a game developed by Harasoft LLC. This code is publicly viewable as part of its hosting on GitHub Pages. Harasoft LLC retains all rights and interests in the code contained in this repository. The game is inspired by classic dice games but is not associated with any of them.
 
-However, please be aware that no license is granted in respect of those intellectual property rights. Harasoft LLC retains all rights and interest in the code contained in this repository.
-
-This means:
+While the code is made available for public viewing, no license is granted with respect to the intellectual property rights. This means:
 
 - You may not use the code contained in this repository.
 - You may not modify the code contained in this repository.
 - You may not distribute the code contained in this repository.
 - You may not create derivative works from the code contained in this repository.
-- Any use, modification, distribution, or creation of derivative works must be explicitly authorized in writing by Harasoft LLC.
+
+Any use, modification, distribution, or creation of derivative works must be explicitly authorized in writing by Harasoft LLC.
 
 ## Features
 
