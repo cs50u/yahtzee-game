@@ -1,6 +1,6 @@
 # Yahtzee Solitaire
 #### Video Demo:  https://youtu.be/96wRhNzc9J8
-#### Description:
+#### Play Now!: https://cs50u.github.io/yahtzee-solitaire/
 # Introduction
 
 This project is a web-based implementation of a classic dice game, developed independently and not affiliated with any existing games in the market, such as Yahtzee™ which is a trademark of Hasbro, Inc. This solitaire version allows players to roll dice, calculate scores, and try for a high score in a solo setting.
